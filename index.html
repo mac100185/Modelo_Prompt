@@ -19,13 +19,21 @@
 
   <!-- Pestaña 1: Información -->
   <section id="information" class="tab-content">
-    <h2>Algoritmo para la Comunicación Efectiva y Acertiva entre Humanos y LLM</h2>
+
+    <ul style="list-style-type: none; padding: 0; text-align: center;">
+      <li>
+        <h2>Algoritmo para la Comunicación Efectiva y Acertiva entre Humanos y LLM</h2>
+        <img src="recursos/imagenes/algoritmo_comunicacion_llm.png" alt="Descripción">
+      </li>
+    </ul>
     <h3>Fase 1: Preparación</h3>
     <ul>
-      <li><strong>Definir el objetivo principal:</strong> El usuario humano debe tener claro qué desea lograr con la interacción (información, análisis, creatividad, etc.).<br>Ejemplo: "Necesito redactar un correo profesional para convencer a un cliente potencial."</li>
+      <li><strong>Definir el objetivo principal:</strong> El usuario humano debe tener claro qué desea lograr con la interacción (información, análisis, creatividad, etc.). Se debe diferenciar entre objetivos cognitivos (información, análisis) y creativos (texto, narrativa, ideas).<br>Ejemplo: "Necesito redactar un correo profesional para convencer a un cliente potencial."</li>
       <li><strong>Identificar el contexto:</strong> Proporciona detalles sobre la situación o el problema que se está abordando.<br>Ejemplo: "El cliente está interesado en nuestros servicios de consultoría, pero aún tiene dudas sobre los beneficios."</li>
       <li><strong>Definir la audiencia:</strong> Especifica quién recibirá la información generada por el LLM.<br>Ejemplo: "El destinatario es un gerente de nivel medio con conocimientos básicos sobre consultoría."</li>
       <li><strong>Establecer expectativas:</strong> Define el tono, estilo y nivel de detalle esperado.<br>Ejemplo: "El tono debe ser profesional pero cercano, evitando tecnicismos innecesarios."</li>
+      <li><strong>Establecer criterios de éxito:</strong> Definir los criterios de éxito desde el inicio para la comunicación efectiva y acertiva.<br>Ejemplo: “Quiero que la respuesta sea aplicable en la práctica sin requerir correcciones mayores”.</li>
+
     </ul>
 
     <h3>Fase 2: Delegación de tareas</h3>
@@ -39,6 +47,8 @@
       </li>
       <li><strong>Priorizar las tareas:</strong> Indica qué parte es más importante o crítica.<br>Ejemplo: "Primero quiero enfocarme en la introducción, ya que es clave para captar la atención."</li>
       <li><strong>Evaluar la adecuación de la tarea:</strong> Pregunta: ¿Esta tarea es adecuada para un LLM? Si no, busca alternativas.<br>Ejemplo: "No le pediré al LLM que evalúe datos financieros complejos, ya que podría cometer errores."</li>
+      <li><strong>Puntos no negociables:</strong>Las tareas deben contener instrucciones claras y sin ambigüedades.<br>Ejemplo: “El texto debe estar en español neutro y no debe contener jerga”</li>
+      <li><strong>Viabilidad:</strong>si la tarea requiere datos externos, validar si el LLM tiene acceso o no.<br></li>
     </ul>
 
     <h3>Fase 3: Creación del prompt</h3>
@@ -70,6 +80,8 @@
             <ul>
               <li>Formato: tabla, ensayo, código, infografía.</li>
               <li>Idioma y extensión: "200-250 palabras", "español neutro".</li>
+              <li>Canal de entrega: ¿se quiere la respuesta como bloque de texto, como puntos numerados, o en un archivo exportable?</li>
+              <li>Nivel de riesgo aceptable: si la respuesta puede tener imprecisiones, indicar el margen tolerado.</li>
             </ul>
             <p><em>Ejemplo:</em> "Formato tabla; 200 palabras por post; usa emojis cibernéticos discretos".</p>
           </li>
@@ -125,6 +137,11 @@
           <li><strong>Relevancia:</strong> ¿Cumple con el objetivo principal?</li>
         </ul>
       </li>
+      <li><strong>Ciclo de retroalimentación formal:</strong> Marcar qué parte estuvo bien y qué parte falló, en lugar de pedir mejoras en bloque.</li>
+      <li><strong>Guardar un “prompt final optimizado” como plantilla para futuros casos similares.</strong></li>
+
+
+
     </ul>
   </section>
 
@@ -134,12 +151,12 @@
     <form id="promptForm">
       <div class="form-group">
         <label for="role"><span class="icon">👤</span> Rol del LLM:</label>
-        <textarea id="role" name="role" rows="2" placeholder="Indicar el rol del LLM."></textarea>
+        <textarea id="role" name="role" rows="10" placeholder="Indicar el rol del LLM."></textarea>
         <button type="button" class="clear-button" data-target="role">Limpiar</button>
       </div>
       <div class="form-group">
         <label for="context"><span class="icon">📝</span> Contexto:</label>
-        <textarea id="context" name="context" rows="3">
+        <textarea id="context" name="context" rows="10">
 Rol del interlocutor: Indicar mi rol.
 Situación concreta: Describir el contexto.
 Impacto buscado: Describir el objetivo final.
@@ -148,30 +165,32 @@ Impacto buscado: Describir el objetivo final.
       </div>
       <div class="form-group">
         <label for="audience"><span class="icon">👥</span> Audiencia:</label>
-        <textarea id="audience" name="audience" rows="2" placeholder="Ejemplo: Gerente de nivel medio con conocimientos básicos"></textarea>
+        <textarea id="audience" name="audience" rows="10" placeholder="Ejemplo: Gerente de nivel medio con conocimientos básicos"></textarea>
         <button type="button" class="clear-button" data-target="audience">Limpiar</button>
       </div>
       <div class="form-group">
         <label for="tasks"><span class="icon">📋</span> Tareas (una por línea):</label>
-        <textarea id="tasks" name="tasks" rows="3" placeholder="Indicar acciones únicas en verbo infinitivo, alcance y tiempo. Eliminar ambigüedades."></textarea>
+        <textarea id="tasks" name="tasks" rows="10" placeholder="Indicar acciones únicas en verbo infinitivo, alcance y tiempo. Eliminar ambigüedades."></textarea>
         <button type="button" class="clear-button" data-target="tasks">Limpiar</button>
       </div>
       <div class="form-group">
         <label for="instructions"><span class="icon">ℹ️</span> Instrucciones:</label>
-        <textarea id="instructions" name="instructions" rows="3">
+        <textarea id="instructions" name="instructions" rows="10">
 Formato: tabla, ensayo, código, infografía.
 Idioma y extensión: "200-250 palabras", "español neutro".
+Canal de entrega: ¿se quiere la respuesta como bloque de texto, como puntos numerados, o en un archivo exportable?
+Nivel de riesgo aceptable: si la respuesta puede tener imprecisiones, indicar el margen tolerado.
         </textarea>
         <button type="button" class="clear-button" data-target="instructions">Limpiar</button>
       </div>
       <div class="form-group">
         <label for="empathy"><span class="icon">❤️</span> Empatía (opcional):</label>
-        <textarea id="empathy" name="empathy" rows="3">Tono: técnico, cercano, lúdico, directivo.</textarea>
+        <textarea id="empathy" name="empathy" rows="10">Tono: técnico, cercano, lúdico, directivo.</textarea>
         <button type="button" class="clear-button" data-target="empathy">Limpiar</button>
       </div>
       <div class="form-group">
         <label for="clarification"><span class="icon">☀️</span> Clarificación:</label>
-        <textarea id="clarification" name="clarification" rows="3">
+        <textarea id="clarification" name="clarification" rows="10">
 ¿Autorizar al modelo LLM a solicitar datos si detecta lagunas? Sí o No.
 Listar preguntas típicas que puedan surgir.
         </textarea>
@@ -179,7 +198,7 @@ Listar preguntas típicas que puedan surgir.
       </div>
       <div class="form-group">
         <label for="refinement"><span class="icon">🔥</span> Refinamiento:</label>
-        <textarea id="refinement" name="refinement" rows="3">
+        <textarea id="refinement" name="refinement" rows="10">
 ¿Se realizarán iteraciones planificadas sobre las respuestas del LLM? Sí o No.
 Focalizar: indicar los puntos en los que se debe concentrar las iteraciones.
         </textarea>
@@ -187,17 +206,17 @@ Focalizar: indicar los puntos en los que se debe concentrar las iteraciones.
       </div>
       <div class="form-group">
         <label for="boundaries"><span class="icon">🚫</span> Límites:</label>
-        <textarea id="boundaries" name="boundaries" rows="3">No inventar datos ni usar tecnicismos innecesarios.</textarea>
+        <textarea id="boundaries" name="boundaries" rows="10">No inventar datos ni usar tecnicismos innecesarios.</textarea>
         <button type="button" class="clear-button" data-target="boundaries">Limpiar</button>
       </div>
       <div class="form-group">
         <label for="consequences"><span class="icon">⚠️</span> Consecuencias de errores:</label>
-        <textarea id="consequences" name="consequences" rows="3">Si cometes un error, te pediré que intentes nuevamente con un enfoque diferente. Si persisten los errores se cambiará de LLM</textarea>
+        <textarea id="consequences" name="consequences" rows="10">Si cometes un error, te pediré que intentes nuevamente con un enfoque diferente. Si persisten los errores se cambiará de LLM</textarea>
         <button type="button" class="clear-button" data-target="consequences">Limpiar</button>
       </div>
       <div class="form-group">
         <label for="example"><span class="icon">💡</span> Ejemplo (opcional):</label>
-        <textarea id="example" name="example" rows="3" placeholder="Proporciona un ejemplo si es relevante."></textarea>
+        <textarea id="example" name="example" rows="10" placeholder="Proporciona un ejemplo si es relevante."></textarea>
         <button type="button" class="clear-button" data-target="example">Limpiar</button>
       </div>
 
