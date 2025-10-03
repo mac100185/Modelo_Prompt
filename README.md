@@ -85,18 +85,21 @@ La herramienta generará un prompt estructurado que puedes copiar directamente y
 ---
 
 ## Archivos del proyecto
+
 /
-├── index.html # Página principal
-├── styles.css # Estilos de la interfaz
-├── script.js # Lógica de generación y manejo de eventos
-├── highlight/ # Biblioteca Highlight.js
-└── recursos/
-└── imagenes/
-├── LogoCyberOliver.jpeg
-└── algoritmo_comunicacion_llm.png
+  index.html
+  styles.css
+  script.js
+  highlight/
+    highlight.min.js
+    styles/
+      monokai-sublime.min.css
+  recursos/
+    imagenes/
+      LogoCyberOliver.jpeg
+      algoritmo_comunicacion_llm.png
 
 ---
-
 ## Licencia
 
 © 2025 CyberOliver. GNU GENERAL PUBLIC LICENSE
