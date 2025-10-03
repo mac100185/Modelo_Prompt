@@ -12,6 +12,8 @@ header {
     color: #d8d6d9;
     padding: 10px;
     text-align: center;
+    border-top: 1px solid #d8d6d9;
+    border-bottom: 1px solid #d8d6d9;
 }
 
 header {
@@ -74,7 +76,7 @@ main {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #fff;
+    color: #d8d6d9;
 }
 
 .form-group textarea {
@@ -196,4 +198,41 @@ textarea {
     overflow: auto; /* scroll interno cuando el texto se excede */
     resize: vertical; /* usuario controla la altura libremente */
     box-sizing: border-box;
+}
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1; /* ocupa todo el espacio disponible */
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #00112f;
+    font-size: 0.9rem;
+    border-top: 1px solid #d8d6d9;
+    border-bottom: 1px solid #d8d6d9;
+}
+
+footer nav a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #d8d6d9;
+}
+
+footer nav a:hover {
+    text-decoration: underline;
+    background-color: blueviolet; /* efecto al pasar el cursor */
+    border-radius: 5px;
 }
