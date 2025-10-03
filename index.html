@@ -342,6 +342,11 @@
                         >Guardar un “prompt final optimizado” como plantilla
                         para futuros casos similares.</strong
                     >
+                    <br /><strong>Tips para mejorar el prompt:</strong> <br />-
+                    Ser imperativo <br />- Integrar a la audiencia <br />-
+                    Permitir preguntas <br />- Propinas/ Amenazas/ Empatía
+                    <br />- Ejemplos output <br />- Palabras clave “debes” “tu
+                    tarea es”
                 </li>
             </ul>
         </section>
@@ -428,10 +433,11 @@ Impacto buscado: Describir el objetivo final.
                         ><span class="icon">ℹ️</span> Instrucciones:</label
                     >
                     <textarea id="instructions" name="instructions" rows="10">
-Formato: tabla, ensayo, código, infografía.
+Formato: tabla, ensayo, código, infografía, lista, texto corrido, markdown.
 Idioma y extensión: "200-250 palabras", "español neutro".
 Canal de entrega: ¿se quiere la respuesta como bloque de texto, como puntos numerados, o en un archivo exportable?
 Nivel de riesgo aceptable: si la respuesta puede tener imprecisiones, indicar el margen tolerado.
+Protección:(evitar hackeos y mal uso si es compartido) Este paso es opcional, pero recomendable si vas a compartir el GPT. Añade una cláusula que dificulte que alguien pueda extraer o manipular las instrucciones o documentos internos.
         </textarea
                     >
                     <button
@@ -481,6 +487,8 @@ Listar preguntas típicas que puedan surgir.
                     <textarea id="refinement" name="refinement" rows="10">
 ¿Se realizarán iteraciones planificadas sobre las respuestas del LLM? Sí o No.
 Focalizar: indicar los puntos en los que se debe concentrar las iteraciones.
+Criterios de Calidad: Las reglas que debe seguir para que el resultado sea bueno.
+¿El LLM debe revisar las respuestas generadas por el modelo para asegurarse de que sean precisas y relevantes? Sí o No
         </textarea
                     >
                     <button
