@@ -13,13 +13,13 @@
       <button id="tab-information">Información</button>
       <button id="tab-generator">Generador</button>
       <button id="tab-results">Resultados</button>
-    
+
     </nav>
   </header>
 
   <!-- Pestaña 1: Información -->
   <section id="information" class="tab-content">
-    <h2>Algoritmo para la Comunicación Activa entre Humanos y LLM</h2>
+    <h2>Algoritmo para la Comunicación Efectiva y Acertiva entre Humanos y LLM</h2>
     <h3>Fase 1: Preparación</h3>
     <ul>
       <li><strong>Definir el objetivo principal:</strong> El usuario humano debe tener claro qué desea lograr con la interacción (información, análisis, creatividad, etc.).<br>Ejemplo: "Necesito redactar un correo profesional para convencer a un cliente potencial."</li>
@@ -45,17 +45,73 @@
     <ul>
       <li><strong>Estructurar el prompt:</strong> Incluye los siguientes elementos:
         <ul>
-          <li><strong>Rol:</strong> Indica cómo debe comportarse el LLM.<br>Ejemplo: "Actúa como un experto en redacción de correos profesionales."</li>
-          <li><strong>Contexto:</strong> Proporciona detalles relevantes.<br>Ejemplo: "El cliente está interesado en nuestros servicios de consultoría, pero aún tiene dudas."</li>
-          <li><strong>Audiencia:</strong> Define quién recibirá la información.<br>Ejemplo: "El destinatario es un gerente de nivel medio con conocimientos básicos."</li>
-          <li><strong>Tareas:</strong> Divide y prioriza las tareas.<br>Ejemplo: "Redacta un párrafo introductorio que explique por qué nuestra consultoría puede ayudarle a resolver sus problemas."</li>
-          <li><strong>Límites:</strong> Establece restricciones claras.<br>Ejemplo: "No inventes datos ni uses tecnicismos innecesarios."</li>
-          <li><strong>Consecuencias:</strong> Define cómo manejar errores.<br>Ejemplo: "Si cometes un error, te pediré que intentes nuevamente con un enfoque diferente."</li>
+          <li><strong>Rol:</strong> Indica cómo debe comportarse el LLM.
+            <p><em>Ejemplo:</em> "Actúa como un experto en redacción de correos profesionales."</p>
+          </li>
+
+          <li><strong>Contexto:</strong> Proporciona detalles relevantes.
+            <ul>
+              <li>Rol del interlocutor: Indicar mi rol.</li>
+              <li>Situación concreta: Describir el contexto.</li>
+              <li>Impacto buscado: Describir el objetivo final.</li>
+            </ul>
+            <p><em>Ejemplo:</em> "Soy CIO de una startup de Ciberseguridad. El cliente está interesado en nuestros servicios de consultoría, pero aún tiene dudas."</p>
+          </li>
+
+          <li><strong>Audiencia:</strong> Define quién recibirá la información.
+            <p><em>Ejemplo:</em> "El destinatario es un gerente general con conocimientos básicos en ciberseguridad."</p>
+          </li>
+
+          <li><strong>Tareas:</strong> Divide y prioriza las tareas. Indicar acciones únicas en verbo infinitivo, alcance y tiempo. Eliminar ambigüedades.
+            <p><em>Ejemplo:</em> "Redacta un párrafo introductorio que explique por qué nuestra consultoría puede ayudarle a resolver sus problemas. Genera un plan de contenidos de nuestros servicios para LinkedIn."</p>
+          </li>
+
+          <li><strong>Instrucciones:</strong> Indicar cómo debe presentar su respuesta.
+            <ul>
+              <li>Formato: tabla, ensayo, código, infografía.</li>
+              <li>Idioma y extensión: "200-250 palabras", "español neutro".</li>
+            </ul>
+            <p><em>Ejemplo:</em> "Formato tabla; 200 palabras por post; usa emojis cibernéticos discretos".</p>
+          </li>
+
+          <li><strong>Simular empatía (opcional):</strong> Solicita que el LLM adopte un tono empático si es relevante.
+            <ul>
+              <li>Tono: técnico, cercano, lúdico, directivo.</li>
+            </ul>
+            <p><em>Ejemplo:</em> "Imagina que estás hablando con un cliente preocupado por su negocio. Usar un tono profesional-empático".</p>
+          </li>
+
+          <li><strong>Clarificación:</strong> Indicar cómo la IA puede aclarar dudas directamente contigo.
+            <ul>
+              <li>¿Autorizar al modelo LLM a solicitar datos si detecta lagunas? Sí o No.</li>
+              <li>Listar preguntas típicas que puedan surgir.</li>
+            </ul>
+            <p><em>Ejemplo:</em> "Antes de empezar pregunta por el presupuesto de anuncios".</p>
+          </li>
+
+          <li><strong>Refinamiento:</strong> Indicar qué puntos volver a repasar y en qué focos concentrarse.
+            <ul>
+              <li>¿Se realizarán iteraciones planificadas sobre las respuestas del LLM? Sí o No.</li>
+              <li>Focalizar: indicar los puntos en los que se debe concentrar las iteraciones.</li>
+            </ul>
+            <p><em>Ejemplo:</em> "Tras la propuesta inicial, revisa métricas y sugiere KPI en la segunda iteración".</p>
+          </li>
+
+          <li><strong>Límites:</strong> Establece restricciones claras.
+            <p><em>Ejemplo:</em> "No inventes datos ni uses tecnicismos innecesarios."</p>
+          </li>
+
+          <li><strong>Consecuencias:</strong> Define cómo manejar errores.
+            <p><em>Ejemplo:</em> "Si cometes un error, te pediré que intentes nuevamente con un enfoque diferente. Si persisten los errores se cambiará de LLM".</p>
+          </li>
+
+          <li><strong>Usar ejemplos (opcional):</strong> Proporciona ejemplos de respuestas deseadas para guiar al LLM.
+            <p><em>Ejemplo:</em> "Aquí tienes un ejemplo de un correo similar que funcionó bien: [insertar ejemplo]."</p>
+          </li>
         </ul>
       </li>
-      <li><strong>Usar ejemplos (opcional):</strong> Proporciona ejemplos de respuestas deseadas para guiar al LLM.<br>Ejemplo: "Aquí tienes un ejemplo de un correo similar que funcionó bien: [insertar ejemplo]."</li>
-      <li><strong>Simular empatía (opcional):</strong> Solicita que el LLM adopte un tono empático si es relevante.<br>Ejemplo: "Imagina que estás hablando con un cliente preocupado por su negocio."</li>
     </ul>
+
 
     <h3>Fase 4: Revisión e iteración</h3>
     <ul>
@@ -74,16 +130,20 @@
 
   <!-- Pestaña 2: Generador de Prompts -->
   <section id="generator" class="tab-content hidden">
-    <h2>Generador de Prompts</h2>
+    <h2>Generador de Prompt</h2>
     <form id="promptForm">
       <div class="form-group">
         <label for="role"><span class="icon">👤</span> Rol del LLM:</label>
-        <textarea id="role" name="role" rows="2" placeholder="Ejemplo: Experto en redacción de correos profesionales"></textarea>
+        <textarea id="role" name="role" rows="2" placeholder="Indicar el rol del LLM."></textarea>
         <button type="button" class="clear-button" data-target="role">Limpiar</button>
       </div>
       <div class="form-group">
         <label for="context"><span class="icon">📝</span> Contexto:</label>
-        <textarea id="context" name="context" rows="3" placeholder="Describe el contexto o situación."></textarea>
+        <textarea id="context" name="context" rows="3">
+Rol del interlocutor: Indicar mi rol.
+Situación concreta: Describir el contexto.
+Impacto buscado: Describir el objetivo final.
+        </textarea>
         <button type="button" class="clear-button" data-target="context">Limpiar</button>
       </div>
       <div class="form-group">
@@ -93,17 +153,46 @@
       </div>
       <div class="form-group">
         <label for="tasks"><span class="icon">📋</span> Tareas (una por línea):</label>
-        <textarea id="tasks" name="tasks" rows="4" placeholder="Escribe cada tarea en una línea separada."></textarea>
+        <textarea id="tasks" name="tasks" rows="3" placeholder="Indicar acciones únicas en verbo infinitivo, alcance y tiempo. Eliminar ambigüedades."></textarea>
         <button type="button" class="clear-button" data-target="tasks">Limpiar</button>
       </div>
       <div class="form-group">
+        <label for="instructions"><span class="icon">ℹ️</span> Instrucciones:</label>
+        <textarea id="instructions" name="instructions" rows="3">
+Formato: tabla, ensayo, código, infografía.
+Idioma y extensión: "200-250 palabras", "español neutro".
+        </textarea>
+        <button type="button" class="clear-button" data-target="instructions">Limpiar</button>
+      </div>
+      <div class="form-group">
+        <label for="empathy"><span class="icon">❤️</span> Empatía (opcional):</label>
+        <textarea id="empathy" name="empathy" rows="3">Tono: técnico, cercano, lúdico, directivo.</textarea>
+        <button type="button" class="clear-button" data-target="empathy">Limpiar</button>
+      </div>
+      <div class="form-group">
+        <label for="clarification"><span class="icon">☀️</span> Clarificación:</label>
+        <textarea id="clarification" name="clarification" rows="3">
+¿Autorizar al modelo LLM a solicitar datos si detecta lagunas? Sí o No.
+Listar preguntas típicas que puedan surgir.
+        </textarea>
+        <button type="button" class="clear-button" data-target="clarification">Limpiar</button>
+      </div>
+      <div class="form-group">
+        <label for="refinement"><span class="icon">🔥</span> Refinamiento:</label>
+        <textarea id="refinement" name="refinement" rows="3">
+¿Se realizarán iteraciones planificadas sobre las respuestas del LLM? Sí o No.
+Focalizar: indicar los puntos en los que se debe concentrar las iteraciones.
+        </textarea>
+        <button type="button" class="clear-button" data-target="refinement">Limpiar</button>
+      </div>
+      <div class="form-group">
         <label for="boundaries"><span class="icon">🚫</span> Límites:</label>
-        <textarea id="boundaries" name="boundaries" rows="3" placeholder="Ejemplo: No inventar datos ni usar tecnicismos innecesarios."></textarea>
+        <textarea id="boundaries" name="boundaries" rows="3">No inventar datos ni usar tecnicismos innecesarios.</textarea>
         <button type="button" class="clear-button" data-target="boundaries">Limpiar</button>
       </div>
       <div class="form-group">
         <label for="consequences"><span class="icon">⚠️</span> Consecuencias de errores:</label>
-        <textarea id="consequences" name="consequences" rows="2" placeholder="Ejemplo: Si cometes un error, el usuario te pedirá intentarlo con un enfoque diferente."></textarea>
+        <textarea id="consequences" name="consequences" rows="3">Si cometes un error, te pediré que intentes nuevamente con un enfoque diferente. Si persisten los errores se cambiará de LLM</textarea>
         <button type="button" class="clear-button" data-target="consequences">Limpiar</button>
       </div>
       <div class="form-group">
@@ -111,18 +200,14 @@
         <textarea id="example" name="example" rows="3" placeholder="Proporciona un ejemplo si es relevante."></textarea>
         <button type="button" class="clear-button" data-target="example">Limpiar</button>
       </div>
-      <div class="form-group">
-        <label for="empathy"><span class="icon">❤️</span> Empatía (opcional):</label>
-        <textarea id="empathy" name="empathy" rows="2" placeholder="Ejemplo: Usa un tono profesional pero cercano."></textarea>
-        <button type="button" class="clear-button" data-target="empathy">Limpiar</button>
-      </div>
+
       <button type="submit">Generar Prompt</button>
     </form>
   </section>
 
   <!-- Pestaña 3: Resultados -->
   <section id="results" class="tab-content hidden">
-    <h2>Resultados</h2>
+    <h2>Pronts Generados</h2>
     <div class="output">
       <!-- XML -->
       <div class="result-section">
@@ -169,7 +254,7 @@
       </div>
     </div>
 
-  
+
   <script src="highlight/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
   <script src="script.js"></script>
