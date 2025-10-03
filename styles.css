@@ -8,22 +8,48 @@ body {
 }
 
 header {
-    background: #007bff;
-    color: white;
+    background: #00112f;
+    color: #d8d6d9;
     padding: 10px;
     text-align: center;
+}
+
+header {
+    display: flex;
+    align-items: center; /* centra verticalmente */
+    gap: 20px; /* separación entre logo y nav */
+    padding: 10px 20px;
+}
+
+header .logo {
+    width: 50px; /* tamaño pequeño del logo */
+    height: auto;
+}
+
+nav {
+    display: flex;
+    gap: 15px; /* separación entre botones */
+}
+
+nav button {
+    font-size: 1.2rem; /* texto grande y legible */
+    margin-left: 15px;
+    padding: 8px 16px;
+    cursor: pointer;
 }
 
 nav button {
     background: none;
     border: none;
-    color: white;
+    color: #d8d6d9;
     font-size: 1rem;
     cursor: pointer;
 }
 
 nav button:hover {
     text-decoration: underline;
+    background-color: blueviolet; /* efecto al pasar el cursor */
+    border-radius: 5px;
 }
 
 main {
