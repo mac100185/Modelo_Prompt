@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Prompts</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="highlight/styles/monokai-sublime.min.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <button id="tab-information">Información</button>
+      <button id="tab-generator">Generador</button>
+      <button id="tab-results">Resultados</button>
+    
+    </nav>
+  </header>
+
+  <!-- Pestaña 1: Información -->
+  <section id="information" class="tab-content">
+    <h2>Algoritmo para la Comunicación Activa entre Humanos y LLM</h2>
+    <h3>Fase 1: Preparación</h3>
+    <ul>
+      <li><strong>Definir el objetivo principal:</strong> El usuario humano debe tener claro qué desea lograr con la interacción (información, análisis, creatividad, etc.).<br>Ejemplo: "Necesito redactar un correo profesional para convencer a un cliente potencial."</li>
+      <li><strong>Identificar el contexto:</strong> Proporciona detalles sobre la situación o el problema que se está abordando.<br>Ejemplo: "El cliente está interesado en nuestros servicios de consultoría, pero aún tiene dudas sobre los beneficios."</li>
+      <li><strong>Definir la audiencia:</strong> Especifica quién recibirá la información generada por el LLM.<br>Ejemplo: "El destinatario es un gerente de nivel medio con conocimientos básicos sobre consultoría."</li>
+      <li><strong>Establecer expectativas:</strong> Define el tono, estilo y nivel de detalle esperado.<br>Ejemplo: "El tono debe ser profesional pero cercano, evitando tecnicismos innecesarios."</li>
+    </ul>
+
+    <h3>Fase 2: Delegación de tareas</h3>
+    <ul>
+      <li><strong>Dividir la tarea en componentes claros:</strong> Separa la solicitud en partes manejables.<br>Ejemplo:
+        <ul>
+          <li>Tarea 1: Redactar un párrafo introductorio que capte la atención del cliente.</li>
+          <li>Tarea 2: Explicar brevemente los beneficios de nuestros servicios.</li>
+          <li>Tarea 3: Incluir una llamada a la acción clara.</li>
+        </ul>
+      </li>
+      <li><strong>Priorizar las tareas:</strong> Indica qué parte es más importante o crítica.<br>Ejemplo: "Primero quiero enfocarme en la introducción, ya que es clave para captar la atención."</li>
+      <li><strong>Evaluar la adecuación de la tarea:</strong> Pregunta: ¿Esta tarea es adecuada para un LLM? Si no, busca alternativas.<br>Ejemplo: "No le pediré al LLM que evalúe datos financieros complejos, ya que podría cometer errores."</li>
+    </ul>
+
+    <h3>Fase 3: Creación del prompt</h3>
+    <ul>
+      <li><strong>Estructurar el prompt:</strong> Incluye los siguientes elementos:
+        <ul>
+          <li><strong>Rol:</strong> Indica cómo debe comportarse el LLM.<br>Ejemplo: "Actúa como un experto en redacción de correos profesionales."</li>
+          <li><strong>Contexto:</strong> Proporciona detalles relevantes.<br>Ejemplo: "El cliente está interesado en nuestros servicios de consultoría, pero aún tiene dudas."</li>
+          <li><strong>Audiencia:</strong> Define quién recibirá la información.<br>Ejemplo: "El destinatario es un gerente de nivel medio con conocimientos básicos."</li>
+          <li><strong>Tareas:</strong> Divide y prioriza las tareas.<br>Ejemplo: "Redacta un párrafo introductorio que explique por qué nuestra consultoría puede ayudarle a resolver sus problemas."</li>
+          <li><strong>Límites:</strong> Establece restricciones claras.<br>Ejemplo: "No inventes datos ni uses tecnicismos innecesarios."</li>
+          <li><strong>Consecuencias:</strong> Define cómo manejar errores.<br>Ejemplo: "Si cometes un error, te pediré que intentes nuevamente con un enfoque diferente."</li>
+        </ul>
+      </li>
+      <li><strong>Usar ejemplos (opcional):</strong> Proporciona ejemplos de respuestas deseadas para guiar al LLM.<br>Ejemplo: "Aquí tienes un ejemplo de un correo similar que funcionó bien: [insertar ejemplo]."</li>
+      <li><strong>Simular empatía (opcional):</strong> Solicita que el LLM adopte un tono empático si es relevante.<br>Ejemplo: "Imagina que estás hablando con un cliente preocupado por su negocio."</li>
+    </ul>
+
+    <h3>Fase 4: Revisión e iteración</h3>
+    <ul>
+      <li><strong>Revisar la respuesta:</strong> Evalúa la precisión, claridad y relevancia de la respuesta generada por el LLM.<br>Ejemplo: "La introducción es buena, pero falta mencionar específicamente los beneficios de nuestros servicios."</li>
+      <li><strong>Iterar según sea necesario:</strong> Realiza ajustes en el prompt o solicita mejoras específicas.<br>Ejemplo: "Por favor, incluye un ejemplo concreto de cómo hemos ayudado a otros clientes."</li>
+      <li><strong>Documentar el proceso:</strong> Registra los cambios realizados para mejorar futuras interacciones.<br>Ejemplo: "La primera versión fue demasiado genérica; ajusté el prompt para pedir ejemplos específicos."</li>
+      <li><strong>Evaluar la calidad final:</strong> Usa criterios específicos para medir el éxito:
+        <ul>
+          <li><strong>Precisión:</strong> ¿Son correctos los datos y la información?</li>
+          <li><strong>Claridad:</strong> ¿Es fácil de entender para la audiencia?</li>
+          <li><strong>Relevancia:</strong> ¿Cumple con el objetivo principal?</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Pestaña 2: Generador de Prompts -->
+  <section id="generator" class="tab-content hidden">
+    <h2>Generador de Prompts</h2>
+    <form id="promptForm">
+      <div class="form-group">
+        <label for="role"><span class="icon">👤</span> Rol del LLM:</label>
+        <textarea id="role" name="role" rows="2" placeholder="Ejemplo: Experto en redacción de correos profesionales"></textarea>
+        <button type="button" class="clear-button" data-target="role">Limpiar</button>
+      </div>
+      <div class="form-group">
+        <label for="context"><span class="icon">📝</span> Contexto:</label>
+        <textarea id="context" name="context" rows="3" placeholder="Describe el contexto o situación."></textarea>
+        <button type="button" class="clear-button" data-target="context">Limpiar</button>
+      </div>
+      <div class="form-group">
+        <label for="audience"><span class="icon">👥</span> Audiencia:</label>
+        <textarea id="audience" name="audience" rows="2" placeholder="Ejemplo: Gerente de nivel medio con conocimientos básicos"></textarea>
+        <button type="button" class="clear-button" data-target="audience">Limpiar</button>
+      </div>
+      <div class="form-group">
+        <label for="tasks"><span class="icon">📋</span> Tareas (una por línea):</label>
+        <textarea id="tasks" name="tasks" rows="4" placeholder="Escribe cada tarea en una línea separada."></textarea>
+        <button type="button" class="clear-button" data-target="tasks">Limpiar</button>
+      </div>
+      <div class="form-group">
+        <label for="boundaries"><span class="icon">🚫</span> Límites:</label>
+        <textarea id="boundaries" name="boundaries" rows="3" placeholder="Ejemplo: No inventar datos ni usar tecnicismos innecesarios."></textarea>
+        <button type="button" class="clear-button" data-target="boundaries">Limpiar</button>
+      </div>
+      <div class="form-group">
+        <label for="consequences"><span class="icon">⚠️</span> Consecuencias de errores:</label>
+        <textarea id="consequences" name="consequences" rows="2" placeholder="Ejemplo: Si cometes un error, el usuario te pedirá intentarlo con un enfoque diferente."></textarea>
+        <button type="button" class="clear-button" data-target="consequences">Limpiar</button>
+      </div>
+      <div class="form-group">
+        <label for="example"><span class="icon">💡</span> Ejemplo (opcional):</label>
+        <textarea id="example" name="example" rows="3" placeholder="Proporciona un ejemplo si es relevante."></textarea>
+        <button type="button" class="clear-button" data-target="example">Limpiar</button>
+      </div>
+      <div class="form-group">
+        <label for="empathy"><span class="icon">❤️</span> Empatía (opcional):</label>
+        <textarea id="empathy" name="empathy" rows="2" placeholder="Ejemplo: Usa un tono profesional pero cercano."></textarea>
+        <button type="button" class="clear-button" data-target="empathy">Limpiar</button>
+      </div>
+      <button type="submit">Generar Prompt</button>
+    </form>
+  </section>
+
+  <!-- Pestaña 3: Resultados -->
+  <section id="results" class="tab-content hidden">
+    <h2>Resultados</h2>
+    <div class="output">
+      <!-- XML -->
+      <div class="result-section">
+        <h3>Formato XML</h3>
+        <pre><code id="xmlEditor" class="xml"></code></pre>
+        <div class="controls">
+          <button id="copyXmlButton">Copiar</button>
+          <button id="exportXmlButton">Exportar XML</button>
+          <button id="printXmlButton">Imprimir XML</button>
+        </div>
+      </div>
+
+      <!-- YAML -->
+      <div class="result-section">
+        <h3>Formato YAML</h3>
+        <pre><code id="yamlEditor" class="yaml"></code></pre>
+        <div class="controls">
+          <button id="copyYamlButton">Copiar</button>
+          <button id="exportYamlButton">Exportar YAML</button>
+          <button id="printYamlButton">Imprimir YAML</button>
+        </div>
+      </div>
+
+      <!-- JSON -->
+      <div class="result-section">
+        <h3>Formato JSON</h3>
+        <pre><code id="jsonEditor" class="json"></code></pre>
+        <div class="controls">
+          <button id="copyJsonButton">Copiar</button>
+          <button id="exportJsonButton">Exportar JSON</button>
+          <button id="printJsonButton">Imprimir JSON</button>
+        </div>
+      </div>
+
+      <!-- Markdown -->
+      <div class="result-section">
+        <h3>Formato Markdown</h3>
+        <pre><code id="markdownEditor" class="markdown"></code></pre>
+        <div class="controls">
+          <button id="copyMarkdownButton">Copiar</button>
+          <button id="exportMarkdownButton">Exportar Markdown</button>
+          <button id="printMarkdownButton">Imprimir Markdown</button>
+        </div>
+      </div>
+    </div>
+
+  
+  <script src="highlight/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="script.js"></script>
+</body>
+</html>
