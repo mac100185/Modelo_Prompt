@@ -672,3 +672,136 @@ footer nav a:hover {
         }
     }
 }
+/* ===== ESTILOS PARA PÁGINAS SECUNDARIAS (Política, Términos, Contacto) ===== */
+#privacy,
+#terms,
+#contact {
+    /* Usa el mismo estilo que las pestañas principales */
+    background: color-mix(in srgb, var(--surface), transparent 60%);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    position: relative;
+    max-width: 800px;
+    margin: 40px auto; /* Centrado con margen superior/inferior */
+    box-sizing: border-box;
+}
+
+/* Aplicar los mismos efectos visuales: borde hexagonal y scanlines */
+#privacy::before,
+#terms::before,
+#contact::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: var(--border-radius);
+    background: linear-gradient(
+        45deg,
+        var(--accent),
+        #8a2be2,
+        #00bfff,
+        var(--accent)
+    );
+    background-size: 400% 400%;
+    z-index: -1;
+    animation: gradientBorder 4s ease infinite;
+    clip-path: polygon(
+        4% 0%,
+        96% 0%,
+        100% 4%,
+        100% 96%,
+        96% 100%,
+        4% 100%,
+        0% 96%,
+        0% 4%
+    );
+    opacity: 0.5;
+}
+
+#privacy::after,
+#terms::after,
+#contact::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        var(--scanline-color) 2px,
+        var(--scanline-color) 4px
+    );
+    pointer-events: none;
+    border-radius: var(--border-radius);
+    z-index: 2;
+}
+
+/* Estilos de texto dentro de las páginas secundarias */
+#privacy h1,
+#terms h1,
+#contact h1 {
+    font-size: 1.9rem;
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--title-color);
+    font-weight: 700;
+    position: relative;
+    z-index: 3;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#privacy h2,
+#terms h2,
+#contact h2 {
+    font-size: 1.4rem;
+    margin: 28px 0 18px;
+    color: var(--text-accent);
+    position: relative;
+    padding-left: 16px;
+    z-index: 3;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#privacy h2::before,
+#terms h2::before,
+#contact h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 26px;
+    background: var(--accent);
+    border-radius: 2px;
+    z-index: 3;
+}
+
+#privacy p,
+#terms p,
+#contact p,
+#privacy li,
+#terms li,
+#contact li {
+    position: relative;
+    z-index: 3;
+    color: var(--text);
+}
+
+.contact-info {
+    background: color-mix(in srgb, var(--surface), transparent 40%);
+    padding: 15px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border: 1px solid var(--border-color);
+    position: relative;
+    z-index: 3;
+}
