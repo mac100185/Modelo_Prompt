@@ -1,204 +1,561 @@
-/* General Styles */
+/* ===== VARIABLES DE TEMA ===== */
+:root {
+    /* Tema OSCURO (predeterminado) */
+    --bg: #121212;
+    --surface: #00112f;
+    --text: #d8d6d9;
+    --text-secondary: #b0bec5;
+    --accent: #007bff;
+    --accent-hover: #0056b3;
+    --accent-light: #4fc3f7;
+    --accent-cyan: #81d4fa;
+    --danger: #ff4d4d;
+    --danger-hover: #cc0000;
+    --border-radius: 20px;
+    --shadow: 0 8px 24px rgba(0, 123, 255, 0.15);
+    --scanline-color: rgba(0, 255, 255, 0.02);
+    --glow-color: rgba(255, 255, 255, 0.25);
+    --border-color: rgba(216, 214, 217, 0.2);
+    --title-color: #4fc3f7; /* Color oscuro */
+    --text-accent: #81d4fa; /* Color cian para modo oscuro */
+    --text-emphasis: #0056b3; /* Para <strong> en modo claro */
+    --text-muted: #4a5568; /* Para <em> y texto secundario en modo claro */
+}
+
+body.light-theme {
+    /* Tema CLARO */
+    --bg: #f8fafc;
+    --surface: #e2e8f0;
+    --text: #1e293b;
+    --text-secondary: #64748b;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --accent-light: #7dd3fc;
+    --accent-cyan: #bae6fd;
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --border-color: rgba(30, 41, 59, 0.15);
+    --shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+    --scanline-color: rgba(0, 0, 0, 0.015);
+    --glow-color: rgba(255, 255, 255, 0.4);
+    --title-color: #0056b3; /* Azul oscuro para fondo claro */
+    --text-accent: #0056b3; /* Azul oscuro para modo claro */
+    --text-emphasis: #0056b3;
+    --text-muted: #4a5568;
+}
+
+/* Transición suave al cambiar de tema */
+*,
+*::before,
+*::after {
+    transition:
+        background-color 0.4s,
+        color 0.4s,
+        border-color 0.4s,
+        box-shadow 0.4s;
+}
+
+/* Fondo animado sutil */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 30%, var(--accent) 20%, transparent 40%),
+        radial-gradient(circle at 80% 70%, var(--accent) 10%, transparent 50%);
+    opacity: 0.06;
+    z-index: -1;
+    animation: slowFloat 30s infinite alternate ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes slowFloat {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-20px, 10px);
+    }
+}
+
+/* Reset y cuerpo */
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family:
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #121212;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Botón de toggle de tema */
+#theme-toggle {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: var(--surface);
+    border: 1px solid var(--text);
+    color: var(--text);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+    transform: rotate(20deg);
+    background: var(--accent);
     color: white;
 }
 
+/* Header */
 header {
-    background: #00112f;
-    color: #d8d6d9;
-    padding: 10px;
-    text-align: center;
-    border-top: 1px solid #d8d6d9;
-    border-bottom: 1px solid #d8d6d9;
-}
-
-header {
+    background: var(--surface);
+    color: var(--text);
     display: flex;
-    align-items: center; /* centra verticalmente */
-    gap: 20px; /* separación entre logo y nav */
-    padding: 10px 20px;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 15px 70px 15px 20px;
+    border-top: 1px solid var(--text);
+    border-bottom: 1px solid var(--text);
+    position: relative;
+    z-index: 10;
 }
 
 header .logo {
-    width: 50px; /* tamaño pequeño del logo */
+    width: 50px;
     height: auto;
+    border-radius: 8px;
 }
 
 nav {
     display: flex;
-    gap: 15px; /* separación entre botones */
-}
-
-nav button {
-    font-size: 1.2rem; /* texto grande y legible */
-    margin-left: 15px;
-    padding: 8px 16px;
-    cursor: pointer;
+    gap: 15px;
 }
 
 nav button {
     background: none;
     border: none;
-    color: #d8d6d9;
-    font-size: 1rem;
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 50px;
     cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Brillo en botones */
+nav button::after,
+.controls button::after,
+button[type="submit"]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--glow-color),
+        transparent
+    );
+    transition: left 0.6s;
+    z-index: 1;
+}
+
+nav button:hover::after,
+.controls button:hover::after,
+button[type="submit"]:hover::after {
+    left: 100%;
 }
 
 nav button:hover {
-    text-decoration: underline;
-    background-color: blueviolet; /* efecto al pasar el cursor */
-    border-radius: 5px;
+    background-color: #4a00e0;
+    color: white;
+    text-decoration: none;
 }
 
+/* Contenedor principal de pestañas */
 main {
+    flex: 1;
     padding: 20px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 5;
 }
 
-.hidden {
-    display: none;
-}
-
+/* ===== EFECTO 5: TRANSICIONES ENTRE PESTAÑAS (CORREGIDO) ===== */
+/* Estilo base para todas las pestañas */
 .tab-content {
-    margin-top: 20px;
+    max-width: 900px;
+    width: 100%;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        visibility 0.35s;
+    /* Asegura que todas ocupen el mismo espacio */
+    position: relative;
+    margin: 0 auto;
 }
 
-/* Formulario Estilizado */
-.form-group {
+/* Pestañas ocultas: invisibles pero ocupan espacio cero */
+.tab-content.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: none;
+    /* Esto evita que empujen el footer */
+}
+
+/* Durante la transición de salida */
+.tab-content.fade-out {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+}
+/*--------------------------------------------*/
+
+/* Estilos base de las pestañas (con efectos visuales) */
+#information,
+#generator,
+#results {
+    background: color-mix(in srgb, var(--surface), transparent 60%);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+/* Hover flotante (solo en escritorio) */
+@media (hover: hover) {
+    #information:hover,
+    #generator:hover,
+    #results:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 35px
+            color-mix(in srgb, var(--accent), transparent 70%);
+    }
+}
+
+/* Borde animado hexagonal */
+#information::before,
+#generator::before,
+#results::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: var(--border-radius);
+    background: linear-gradient(
+        45deg,
+        var(--accent),
+        #8a2be2,
+        #00bfff,
+        var(--accent)
+    );
+    background-size: 400% 400%;
+    z-index: -1;
+    animation: gradientBorder 4s ease infinite;
+    clip-path: polygon(
+        4% 0%,
+        96% 0%,
+        100% 4%,
+        100% 96%,
+        96% 100%,
+        4% 100%,
+        0% 96%,
+        0% 4%
+    );
+    opacity: 0.5;
+}
+
+@keyframes gradientBorder {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Scanlines */
+#information::after,
+#generator::after,
+#results::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        var(--scanline-color) 2px,
+        var(--scanline-color) 4px
+    );
+    pointer-events: none;
+    border-radius: var(--border-radius);
+    z-index: 2;
+}
+
+/* ===== ESTILOS DE LA PESTAÑA INFORMACIÓN ===== */
+#information h2 {
+    font-size: 1.9rem;
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--title-color);
+    font-weight: 700;
+    position: relative;
+    z-index: 3;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#information h3 {
+    font-size: 1.4rem;
+    margin: 28px 0 18px;
+    color: var(--text-accent);
+    position: relative;
+    padding-left: 16px;
+    z-index: 3;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#information h3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 26px;
+    background: var(--accent);
+    border-radius: 2px;
+    z-index: 3;
+}
+
+#information ul {
+    padding-left: 24px;
     margin-bottom: 20px;
     position: relative;
+    z-index: 3;
+}
+
+#information li {
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 3;
+}
+
+#information li,
+#generator li,
+#results li {
+    color: var(--text);
+}
+
+#information ul ul {
+    padding-left: 24px;
+    margin-top: 10px;
+}
+
+#information strong,
+#generator strong,
+#results strong {
+    color: var(--text-emphasis);
+}
+
+#information em {
+    display: block;
+    margin-top: 6px;
+    font-style: italic;
+    color: var(--text-muted);
+    position: relative;
+    z-index: 3;
+}
+
+#information img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    margin: 20px 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid var(--border-color);
+    position: relative;
+    z-index: 3;
+}
+
+/* ===== ESTILOS DEL GENERADOR (FORMULARIO) ===== */
+.form-group {
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 3;
 }
 
 .form-group label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
-    color: #d8d6d9;
-}
-
-.form-group textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 2px solid #007bff;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-size: 1rem;
-    resize: vertical;
+    margin-bottom: 8px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 3;
 }
 
 .icon {
     color: #ff00ff;
     font-size: 1.2rem;
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
-button[type="submit"] {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-button[type="submit"]:hover {
-    background: #0056b3;
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    background-color: color-mix(in srgb, var(--bg), transparent 30%);
+    color: var(--text);
+    font-size: 1rem;
+    resize: vertical;
+    font-family: inherit;
+    position: relative;
+    z-index: 3;
 }
 
 .clear-button {
     position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    background: #ff4d4d;
+    bottom: 5px; /* Ajusta al borde inferior */
+    right: 10px; /* Alineado a la derecha */
+    background: var(--danger);
     color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
+    padding: 4px 10px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    transition: background 0.2s;
+    z-index: 4;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Para evitar que el botón se superponga con el texto */
+.form-group textarea {
+    padding-right: 40px; /* Espacio para el botón */
+    resize: vertical;
 }
 
 .clear-button:hover {
-    background: #cc0000;
+    background: var(--danger-hover);
+    transform: scale(1.05);
 }
 
-/* Tabs */
-.tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.tab-button {
-    background: #007bff;
+button[type="submit"] {
+    background: var(--accent);
     color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
+    padding: 12px 24px;
+    border-radius: 12px;
     cursor: pointer;
-}
-
-.tab-button.active {
-    background: #0056b3;
-}
-
-.tab-pane {
-    display: none;
-}
-
-.tab-pane.active {
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background 0.2s;
     display: block;
+    margin: 20px auto 0;
+    position: relative;
+    overflow: hidden;
+    z-index: 3;
 }
 
-/* Resaltado de Sintaxis */
+/* ===== ESTILOS DE RESULTADOS ===== */
 pre {
-    background-color: #1e1e1e;
-    padding: 15px;
-    border-radius: 8px;
+    background-color: color-mix(in srgb, var(--surface), transparent 20%);
+    padding: 18px;
+    border-radius: 12px;
     overflow-x: auto;
     max-height: 400px;
-}
-
-.result-section {
-    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    color: var(--text);
+    position: relative;
+    z-index: 3;
 }
 
 .result-section h3 {
-    color: #fff;
-    margin-bottom: 10px;
+    color: var(--text-accent);
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 3;
 }
 
 .controls {
-    margin-top: 10px;
+    margin-top: 12px;
     display: flex;
-    gap: 10px;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 3;
 }
 
 .controls button {
-    background: #007bff;
+    background: var(--accent);
     color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
+    padding: 8px 16px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
 }
 
 .controls button:hover {
-    background: #0056b3;
+    background: var(--accent-hover);
 }
-textarea {
-    width: 100%;
-    min-height: 60px; /* altura mínima inicial */
-    overflow: auto; /* scroll interno cuando el texto se excede */
-    resize: vertical; /* usuario controla la altura libremente */
-    box-sizing: border-box;
-}
+
+/* ===== FOOTER ===== */
 html,
 body {
     height: 100%;
@@ -211,7 +568,7 @@ body {
 }
 
 .content {
-    flex: 1; /* ocupa todo el espacio disponible */
+    flex: 1;
 }
 
 footer {
@@ -219,20 +576,79 @@ footer {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: #00112f;
+    background-color: var(--surface);
     font-size: 0.9rem;
-    border-top: 1px solid #d8d6d9;
-    border-bottom: 1px solid #d8d6d9;
+    border-top: 1px solid var(--text);
+    border-bottom: 1px solid var(--text);
+    position: relative;
+    z-index: 10;
 }
 
 footer nav a {
     margin-left: 15px;
     text-decoration: none;
-    color: #d8d6d9;
+    color: var(--text);
 }
 
 footer nav a:hover {
     text-decoration: underline;
-    background-color: blueviolet; /* efecto al pasar el cursor */
+    background-color: #4a00e0;
     border-radius: 5px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px 60px 15px 20px;
+    }
+
+    #theme-toggle {
+        top: 10px;
+        right: 10px;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .tab-content {
+        padding: 20px !important;
+    }
+
+    #information h2 {
+        font-size: 1.6rem;
+    }
+
+    #information h3 {
+        font-size: 1.25rem;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    footer nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    footer nav a {
+        margin: 0 8px;
+    }
+
+    /* Desactivar hover en móviles */
+    @media (hover: none) {
+        #information:hover,
+        #generator:hover,
+        #results:hover {
+            transform: none;
+            box-shadow: var(--shadow);
+        }
+    }
 }

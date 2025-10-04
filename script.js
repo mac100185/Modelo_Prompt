@@ -8,18 +8,6 @@ function escapeHtml(text) {
     .replace(/'/g, "&#039;");
 }
 
-// Cambiar pestañas
-document.querySelectorAll("nav button").forEach((button) => {
-  button.addEventListener("click", () => {
-    document
-      .querySelectorAll(".tab-content")
-      .forEach((tab) => tab.classList.add("hidden"));
-    document
-      .getElementById(button.id.replace("tab-", ""))
-      .classList.remove("hidden");
-  });
-});
-
 // Limpiar campos
 document.querySelectorAll(".clear-button").forEach((button) => {
   button.addEventListener("click", () => {
@@ -283,3 +271,31 @@ function copyToClipboard(editorId) {
       console.error("Error al copiar al portapapeles:", err);
     });
 }
+//-----------------------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  // Asegurar que solo "information" esté visible al inicio
+  document.querySelectorAll(".tab-content").forEach((tab) => {
+    if (tab.id !== "information") tab.classList.add("hidden");
+  });
+
+  // Cambiar pestañas
+  document.querySelectorAll("nav button[data-tab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const targetId = button.dataset.tab;
+
+      // Ocultar todas
+      document.querySelectorAll(".tab-content").forEach((tab) => {
+        if (tab.id === targetId) {
+          tab.classList.remove("hidden");
+        } else {
+          tab.classList.add("hidden");
+        }
+      });
+    });
+  });
+
+  // Toggle de tema
+  document.getElementById("theme-toggle")?.addEventListener("click", () => {
+    document.body.classList.toggle("light-theme");
+  });
+});
