@@ -154,7 +154,7 @@ ${empathy.map((empathy) => `    - ${escapeHtml(empathy)}`).join("\n")}`;
         CLARIFICATION: clarification,
         REFINEMENT: refinement,
         BOUNDARIES: boundaries,
-        CONSECUENCIAS: consequences,
+        CONSEQUENCES: consequences,
         ...(exampleInput && { EXAMPLE: { INPUT: exampleInput } }),
         ...(empathy && { EMPATÍA: empathy }),
       },
