@@ -21,9 +21,21 @@ document.getElementById("promptForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
   // Obtener valores
-  const role = document.getElementById("role").value.trim();
-  const context = document.getElementById("context").value.trim();
-  const audience = document.getElementById("audience").value.trim();
+  const role = document
+    .getElementById("role")
+    .value.trim()
+    .split("\n")
+    .map((line) => line.trim());
+  const context = document
+    .getElementById("context")
+    .value.trim()
+    .split("\n")
+    .map((line) => line.trim());
+  const audience = document
+    .getElementById("audience")
+    .value.trim()
+    .split("\n")
+    .map((line) => line.trim());
   const tasks = document
     .getElementById("tasks")
     .value.trim()
@@ -34,7 +46,11 @@ document.getElementById("promptForm").addEventListener("submit", function (e) {
     .value.trim()
     .split("\n")
     .map((instructions) => instructions.trim());
-  const empathy = document.getElementById("empathy").value.trim();
+  const empathy = document
+    .getElementById("empathy")
+    .value.trim()
+    .split("\n")
+    .map((line) => line.trim());
   const clarification = document
     .getElementById("clarification")
     .value.trim()
@@ -50,60 +66,78 @@ document.getElementById("promptForm").addEventListener("submit", function (e) {
     .value.trim()
     .split("\n")
     .map((boundary) => boundary.trim());
-  const consequences = document.getElementById("consequences").value.trim();
-  const exampleInput = document.getElementById("example").value.trim();
-
+  const consequences = document
+    .getElementById("consequences")
+    .value.trim()
+    .split("\n")
+    .map((line) => line.trim());
+  const exampleInput = document
+    .getElementById("example")
+    .value.trim()
+    .split("\n")
+    .map((line) => line.trim());
   // Generar outputs
   // XML
   const xmlOutput = `
 <PROMPT>
-  <ROLE>${escapeHtml(role)}</ROLE>
-  <CONTEXT>${escapeHtml(context)}</CONTEXT>
-  <AUDIENCE>${escapeHtml(audience)}</AUDIENCE>
+  <ROLE>
+    ${role.map((role) => `    <ROLE>${escapeHtml(role)}</ROLE>`).join("\n    ")}
+  </ROLE>
+  <CONTEXT>
+    ${context.map((context) => `    <CONTEXT>${escapeHtml(context)}</CONTEXT>`).join("\n    ")}
+  </CONTEXT>
+  <AUDIENCE>
+    ${audience.map((audience) => `    <AUDIENCE>${escapeHtml(audience)}</AUDIENCE>`).join("\n    ")}
+  </AUDIENCE>
   <TASKS>
-    ${tasks.map((task, index) => `    <TASK prioridad="${index + 1}">${escapeHtml(task)}</TASK>`).join("\n")}
+    ${tasks.map((task, index) => `    <TASK prioridad="${index + 1}">${escapeHtml(task)}</TASK>`).join("\n    ")}
   </TASKS>
   <INSTRUCTIONS>
-    ${instructions.map((instructions) => `    <INSTRUCTIONS>${escapeHtml(instructions)}</INSTRUCTIONS>`).join("\n")}
+    ${instructions.map((instructions) => `    <INSTRUCTIONS>${escapeHtml(instructions)}</INSTRUCTIONS>`).join("\n    ")}
   </INSTRUCTIONS>
-  ${empathy ? `<EMPATHY>${escapeHtml(empathy)}</EMPATHY>` : ""}
+    ${empathy.map((empathy) => `    <EMPATHY>${escapeHtml(empathy)}</EMPATHY>`).join("\n    ")}
   <CLARIFICATION>
-    ${clarification.map((clarification) => `    <CLARIFICATION>${escapeHtml(clarification)}</CLARIFICATION>`).join("\n")}
+    ${clarification.map((clarification) => `    <CLARIFICATION>${escapeHtml(clarification)}</CLARIFICATION>`).join("\n    ")}
   </CLARIFICATION>
   <REFINEMENT>
-    ${refinement.map((refinement) => `    <REFINEMENT>${escapeHtml(refinement)}</REFINEMENT>`).join("\n")}
+    ${refinement.map((refinement) => `    <REFINEMENT>${escapeHtml(refinement)}</REFINEMENT>`).join("\n    ")}
   </REFINEMENT>
   <BOUNDARIES>
-    ${boundaries.map((boundary) => `    <BOUNDARY>${escapeHtml(boundary)}</BOUNDARY>`).join("\n")}
+    ${boundaries.map((boundary) => `    <BOUNDARY>${escapeHtml(boundary)}</BOUNDARY>`).join("\n    ")}
   </BOUNDARIES>
-  <CONSEQUENCES>${escapeHtml(consequences)}</CONSEQUENCES>
-  <EXAMPLE>${escapeHtml(exampleInput)}</EXAMPLE>
+  <CONSEQUENCES>
+    ${consequences.map((consequences) => `    <CONSEQUENCES>${escapeHtml(consequences)}</CONSEQUENCES>`).join("\n    ")}
+  </CONSEQUENCES>
+  <EXAMPLE>
+    ${exampleInput.map((exampleInput) => `    <EXAMPLE>${escapeHtml(exampleInput)}</EXAMPLE>`).join("\n    ")}
+  </EXAMPLE>
 </PROMPT>`;
 
   //YAML
   const yamlOutput = `
 PROMPT:
-  ROLE: ${escapeHtml(role)}
-  CONTEXT: ${escapeHtml(context)}
-  AUDIENCE: ${escapeHtml(audience)}
+  ROLE:
+${role.map((role) => `    - ${escapeHtml(role)}`).join("\n")}
+  CONTEXT:
+${context.map((context) => `    - ${escapeHtml(context)}`).join("\n")}
+  AUDIENCE:
+${audience.map((audience) => `    - ${escapeHtml(audience)}`).join("\n")}
   TASKS:
-${tasks.map((task, index) => `    - PRIORIDAD: ${index + 1}\n      DESCRIPCIÓN: ${escapeHtml(task)}`).join("\n")}
+${tasks.map((task, index) => `    - TASK: ${index + 1}\n      DESCRIPTION: ${escapeHtml(task)}`).join("\n")}
   INSTRUCTIONS:
 ${instructions.map((instructions) => `    - ${escapeHtml(instructions)}`).join("\n")}
   CLARIFICATION:
 ${clarification.map((clarification) => `    - ${escapeHtml(clarification)}`).join("\n")}
-REFINEMENT:
+  REFINEMENT:
 ${refinement.map((refinement) => `    - ${escapeHtml(refinement)}`).join("\n")}
   BOUNDARIES:
 ${boundaries.map((boundary) => `    - ${escapeHtml(boundary)}`).join("\n")}
-  CONSECUENCIAS: ${escapeHtml(consequences)}
-  EXAMPLE: ${escapeHtml(exampleInput)}
-${
-  empathy
-    ? `
-  EMPATÍA: ${escapeHtml(empathy)}`
-    : ""
-}`;
+  CONSEQUENCES:
+${consequences.map((consequences) => `    - ${escapeHtml(consequences)}`).join("\n")}
+  EXAMPLE:
+${exampleInput.map((exampleInput) => `    - ${escapeHtml(exampleInput)}`).join("\n")}
+  EMPATÍA:
+${empathy.map((empathy) => `    - ${escapeHtml(empathy)}`).join("\n")}`;
 
   // JSON
   const jsonOutput = JSON.stringify(
@@ -131,32 +165,28 @@ ${
   // MARKDOWN
   const markdownOutput = `
 [PROMPT]
-ROLE: ${escapeHtml(role)}
-CONTEXT: ${escapeHtml(context)}
-AUDIENCE: ${escapeHtml(audience)}
-TASKS:
-${tasks.map((task, index) => `  ${index + 1}. ${escapeHtml(task)}`).join("\n")}
-INSTRUCTIONS:
-${instructions.map((instructions) => `  - ${escapeHtml(instructions)}`).join("\n")}
-CLARIFICATION:
-${clarification.map((clarification) => `  - ${escapeHtml(clarification)}`).join("\n")}
-REFINEMENT:
-${refinement.map((refinement) => `  - ${escapeHtml(refinement)}`).join("\n")}
-BOUNDARIES:
-${boundaries.map((boundary) => `  - ${escapeHtml(boundary)}`).join("\n")}
-CONSECUENCIAS: ${escapeHtml(consequences)}
-${
-  exampleInput
-    ? `
-EXAMPLE: ${escapeHtml(exampleInput)}`
-    : ""
-}
-${
-  empathy
-    ? `
-EMPATÍA: ${escapeHtml(empathy)}`
-    : ""
-}`;
+  ROLE:
+    ${role.map((role) => `  - ${escapeHtml(role)}`).join("\n    ")}
+  CONTEXT:
+    ${context.map((context) => `  - ${escapeHtml(context)}`).join("\n    ")}
+  AUDIENCE:
+    ${audience.map((audience) => `  - ${escapeHtml(audience)}`).join("\n    ")}
+  TASKS:
+    ${tasks.map((task, index) => `  TASK: ${index + 1}. ${escapeHtml(task)}`).join("\n    ")}
+  INSTRUCTIONS:
+    ${instructions.map((instructions) => `  - ${escapeHtml(instructions)}`).join("\n    ")}
+  CLARIFICATION:
+    ${clarification.map((clarification) => `  - ${escapeHtml(clarification)}`).join("\n    ")}
+  REFINEMENT:
+    ${refinement.map((refinement) => `  - ${escapeHtml(refinement)}`).join("\n    ")}
+  BOUNDARIES:
+    ${boundaries.map((boundary) => `  - ${escapeHtml(boundary)}`).join("\n    ")}
+  CONSEQUENCES:
+    ${consequences.map((consequences) => `  - ${escapeHtml(consequences)}`).join("\n    ")}
+  EXAMPLE:
+    ${exampleInput.map((exampleInput) => `  - ${escapeHtml(exampleInput)}`).join("\n    ")}
+  EMPATÍA:
+    ${empathy.map((empathy) => `  - ${escapeHtml(empathy)}`).join("\n    ")}`;
 
   // Mostrar resultados en los paneles
   document.getElementById("xmlEditor").textContent = xmlOutput;
