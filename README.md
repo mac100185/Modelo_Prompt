@@ -102,8 +102,7 @@ La herramienta generará un prompt estructurado que puedes copiar directamente y
 ---
 ## Licencia
 
-© 2025 CyberOliver. GNU GENERAL PUBLIC LICENSE
-                       Version 3, 29 June 2007.
+© 2025 Alan Mac-Arthur García Díaz. GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007.
 
 *Esta herramienta está diseñada para fines educativos y profesionales. No se permite su redistribución comercial sin autorización.*
 
