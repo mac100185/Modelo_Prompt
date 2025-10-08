@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Generador de Prompts</title>
         <link rel="stylesheet" href="styles.css" />
+        <link rel="stylesheet" href="ia-search.css" />
         <link
             rel="stylesheet"
             href="highlight/styles/monokai-sublime.min.css"
@@ -43,6 +44,7 @@
                     Generador
                 </button>
                 <button id="tab-results" data-tab="results">Resultados</button>
+                <button data-tab="ia-search">Buscar IA</button>
             </nav>
             <button id="theme-toggle" aria-label="Cambiar tema">🌓</button>
         </header>
@@ -707,6 +709,24 @@ Si cometes un error, te pediré que intentes nuevamente con un enfoque diferente
                         </div>
                     </div>
                 </section>
+                <!-- Pestaña principal: buscador de IA -->
+                <section id="ia-search" class="tab-content hidden">
+                    <h2>Explorar Inteligencias Artificiales</h2>
+                    <h3>
+                        La base de datos es de aproximadamente 200 IAs
+                        actualizadas a octubre del 2025
+                    </h3>
+                    <div class="search-controls">
+                        <input
+                            type="text"
+                            class="search-input"
+                            id="searchInput"
+                            placeholder="Buscar por nombre o descripción..."
+                        />
+                        <div class="filters" id="categoryFilters"></div>
+                    </div>
+                    <div class="ia-list" id="iaList"></div>
+                </section>
             </main>
         </div>
         <footer>
@@ -741,5 +761,7 @@ Si cometes un error, te pediré que intentes nuevamente con un enfoque diferente
             hljs.highlightAll();
         </script>
         <script src="script.js"></script>
+        <script src="ia-data.js"></script>
+        <script src="ia-search.js"></script>
     </body>
 </html>
