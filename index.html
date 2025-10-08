@@ -496,13 +496,14 @@ Impacto buscado: Describir el objetivo final.
                             <textarea
                                 id="instructions"
                                 name="instructions"
-                                rows="14"
+                                rows="18"
                             >
 Formato: tabla, ensayo, código, infografía, lista, texto corrido, markdown.
 Idioma y extensión: "200-250 palabras", "español neutro".
 Canal de entrega: ¿se quiere la respuesta como bloque de texto, como puntos numerados, o en un archivo exportable?
 Nivel de riesgo aceptable: si la respuesta puede tener imprecisiones, indicar el margen tolerado.
 Protección:(evitar hackeos y mal uso si es compartido) Este paso es opcional, pero recomendable si vas a compartir el GPT. Añade una cláusula que dificulte que alguien pueda extraer o manipular las instrucciones o documentos internos.
+Razonamiento: Definir explícitamente los pasos que el modelo debe seguir internamente para llegar al resultado final. Indicar qué ruta mental seguir.
         </textarea
                             >
                             <button
@@ -582,10 +583,13 @@ Criterios de Calidad: Las reglas que debe seguir para que el resultado sea bueno
                             <textarea
                                 id="boundaries"
                                 name="boundaries"
-                                rows="3"
+                                rows="10"
                             >
-No inventar datos ni usar tecnicismos innecesarios.</textarea
-                            >
+No inventar datos ni usar tecnicismos innecesarios.
+Usa reglas para definir límites claros: lo que está prohibido o lo que es obligatorio.
+Mientras más específicas sean las reglas, más consistentes y fiables serán las respuestas del modelo.
+Definir con precisión cuándo debe el modelo detenerse al generar su respuesta. Define el límite exacto en cantidad, tiempo o extensión.
+                            </textarea>
                             <button
                                 type="button"
                                 class="clear-button"
