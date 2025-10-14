@@ -2,8 +2,16 @@
 
 Todos los cambios notables en **Modelo_Pront** se documentarán en este archivo.
 
-El formato sigue las convenciones de [keepachangelog.com](https://keepachangelog.com/en/1.0.0/).  
+El formato sigue las convenciones de [keepachangelog.com](https://keepachangelog.com/en/1.0.0/).
 Este proyecto utiliza [Versionado Semántico](https://semver.org/spec/v2.0.0.html).
+
+## [1.0.1] - 2025-10-13
+
+### ✨ Lanzamiento estable
+
+- Mejoras en la descripción de los campos del formulario del generador de prompts.
+
+[1.0.1]: https://github.com/mac100185/Modelo_Pront/releases/tag/v1.0.1
 
 ## [1.0.0] - 2025-10-09
 
@@ -11,9 +19,9 @@ Este proyecto utiliza [Versionado Semántico](https://semver.org/spec/v2.0.0.htm
 
 - Aplicación web interactiva para la creación de prompts estructurados para LLMs.
 - Implementación del **algoritmo de 4 fases** para comunicación efectiva con inteligencia artificial:
-  1. Preparación  
-  2. Delegación de tareas  
-  3. Creación del prompt  
+  1. Preparación
+  2. Delegación de tareas
+  3. Creación del prompt
   4. Revisión e iteración
 - Formulario detallado con campos para:
   - Rol del LLM y del usuario
