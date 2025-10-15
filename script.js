@@ -45,7 +45,7 @@ document.getElementById("promptForm").addEventListener("submit", function (e) {
     .getElementById("instructions")
     .value.trim()
     .split("\n")
-    .map((instructions) => instructions.trim());
+    .map((instr) => instr.trim());
   const empathy = document
     .getElementById("empathy")
     .value.trim()
@@ -55,17 +55,17 @@ document.getElementById("promptForm").addEventListener("submit", function (e) {
     .getElementById("clarification")
     .value.trim()
     .split("\n")
-    .map((clarification) => clarification.trim());
+    .map((clar) => clar.trim());
   const refinement = document
     .getElementById("refinement")
     .value.trim()
     .split("\n")
-    .map((refinement) => refinement.trim());
+    .map((ref) => ref.trim());
   const boundaries = document
     .getElementById("boundaries")
     .value.trim()
     .split("\n")
-    .map((boundary) => boundary.trim());
+    .map((bound) => bound.trim());
   const consequences = document
     .getElementById("consequences")
     .value.trim()
@@ -76,150 +76,126 @@ document.getElementById("promptForm").addEventListener("submit", function (e) {
     .value.trim()
     .split("\n")
     .map((line) => line.trim());
-  // Generar outputs
-  // XML
+
+  // Generar outputs (XML, YAML, JSON, Markdown)
   const xmlOutput = `
 <PROMPT>
   <ROLE>
-    ${role.map((role) => `    <ROLE>${escapeHtml(role)}</ROLE>`).join("\n    ")}
+    ${role.map((r) => `    <ROLE>${escapeHtml(r)}</ROLE>`).join("\n    ")}
   </ROLE>
   <CONTEXT>
-    ${context.map((context) => `    <CONTEXT>${escapeHtml(context)}</CONTEXT>`).join("\n    ")}
+    ${context.map((c) => `    <CONTEXT>${escapeHtml(c)}</CONTEXT>`).join("\n    ")}
   </CONTEXT>
   <AUDIENCE>
-    ${audience.map((audience) => `    <AUDIENCE>${escapeHtml(audience)}</AUDIENCE>`).join("\n    ")}
+    ${audience.map((a) => `    <AUDIENCE>${escapeHtml(a)}</AUDIENCE>`).join("\n    ")}
   </AUDIENCE>
   <TASKS>
-    ${tasks.map((task, index) => `    <TASK prioridad="${index + 1}">${escapeHtml(task)}</TASK>`).join("\n    ")}
+    ${tasks.map((t, i) => `    <TASK prioridad="${i + 1}">${escapeHtml(t)}</TASK>`).join("\n    ")}
   </TASKS>
   <INSTRUCTIONS>
-    ${instructions.map((instructions) => `    <INSTRUCTIONS>${escapeHtml(instructions)}</INSTRUCTIONS>`).join("\n    ")}
+    ${instructions.map((i) => `    <INSTRUCTIONS>${escapeHtml(i)}</INSTRUCTIONS>`).join("\n    ")}
   </INSTRUCTIONS>
-    ${empathy.map((empathy) => `    <EMPATHY>${escapeHtml(empathy)}</EMPATHY>`).join("\n    ")}
+  ${empathy.length ? empathy.map((e) => `    <EMPATHY>${escapeHtml(e)}</EMPATHY>`).join("\n    ") : ""}
   <CLARIFICATION>
-    ${clarification.map((clarification) => `    <CLARIFICATION>${escapeHtml(clarification)}</CLARIFICATION>`).join("\n    ")}
+    ${clarification.map((c) => `    <CLARIFICATION>${escapeHtml(c)}</CLARIFICATION>`).join("\n    ")}
   </CLARIFICATION>
   <REFINEMENT>
-    ${refinement.map((refinement) => `    <REFINEMENT>${escapeHtml(refinement)}</REFINEMENT>`).join("\n    ")}
+    ${refinement.map((r) => `    <REFINEMENT>${escapeHtml(r)}</REFINEMENT>`).join("\n    ")}
   </REFINEMENT>
   <BOUNDARIES>
-    ${boundaries.map((boundary) => `    <BOUNDARY>${escapeHtml(boundary)}</BOUNDARY>`).join("\n    ")}
+    ${boundaries.map((b) => `    <BOUNDARY>${escapeHtml(b)}</BOUNDARY>`).join("\n    ")}
   </BOUNDARIES>
   <CONSEQUENCES>
-    ${consequences.map((consequences) => `    <CONSEQUENCES>${escapeHtml(consequences)}</CONSEQUENCES>`).join("\n    ")}
+    ${consequences.map((c) => `    <CONSEQUENCES>${escapeHtml(c)}</CONSEQUENCES>`).join("\n    ")}
   </CONSEQUENCES>
   <EXAMPLE>
-    ${exampleInput.map((exampleInput) => `    <EXAMPLE>${escapeHtml(exampleInput)}</EXAMPLE>`).join("\n    ")}
+    ${exampleInput.map((e) => `    <EXAMPLE>${escapeHtml(e)}</EXAMPLE>`).join("\n    ")}
   </EXAMPLE>
 </PROMPT>`;
 
-  //YAML
   const yamlOutput = `
 PROMPT:
   ROLE:
-${role.map((role) => `    - ${escapeHtml(role)}`).join("\n")}
+${role.map((r) => `    - ${escapeHtml(r)}`).join("\n")}
   CONTEXT:
-${context.map((context) => `    - ${escapeHtml(context)}`).join("\n")}
+${context.map((c) => `    - ${escapeHtml(c)}`).join("\n")}
   AUDIENCE:
-${audience.map((audience) => `    - ${escapeHtml(audience)}`).join("\n")}
+${audience.map((a) => `    - ${escapeHtml(a)}`).join("\n")}
   TASKS:
-${tasks.map((task, index) => `    - TASK: ${index + 1}\n      DESCRIPTION: ${escapeHtml(task)}`).join("\n")}
+${tasks.map((t, i) => `    - TASK: ${i + 1}\n      DESCRIPTION: ${escapeHtml(t)}`).join("\n")}
   INSTRUCTIONS:
-${instructions.map((instructions) => `    - ${escapeHtml(instructions)}`).join("\n")}
+${instructions.map((i) => `    - ${escapeHtml(i)}`).join("\n")}
   CLARIFICATION:
-${clarification.map((clarification) => `    - ${escapeHtml(clarification)}`).join("\n")}
+${clarification.map((c) => `    - ${escapeHtml(c)}`).join("\n")}
   REFINEMENT:
-${refinement.map((refinement) => `    - ${escapeHtml(refinement)}`).join("\n")}
+${refinement.map((r) => `    - ${escapeHtml(r)}`).join("\n")}
   BOUNDARIES:
-${boundaries.map((boundary) => `    - ${escapeHtml(boundary)}`).join("\n")}
+${boundaries.map((b) => `    - ${escapeHtml(b)}`).join("\n")}
   CONSEQUENCES:
-${consequences.map((consequences) => `    - ${escapeHtml(consequences)}`).join("\n")}
+${consequences.map((c) => `    - ${escapeHtml(c)}`).join("\n")}
   EXAMPLE:
-${exampleInput.map((exampleInput) => `    - ${escapeHtml(exampleInput)}`).join("\n")}
-  EMPATÍA:
-${empathy.map((empathy) => `    - ${escapeHtml(empathy)}`).join("\n")}`;
+${exampleInput.map((e) => `    - ${escapeHtml(e)}`).join("\n")}
+  ${empathy.length ? `EMPATÍA:\n${empathy.map((e) => `    - ${escapeHtml(e)}`).join("\n")}` : ""}`;
 
-  // JSON
   const jsonOutput = JSON.stringify(
     {
       PROMPT: {
         ROLE: role,
         CONTEXT: context,
         AUDIENCE: audience,
-        TASKS: tasks.map((task, index) => ({
-          PRIORIDAD: index + 1,
-          DESCRIPCIÓN: task,
-        })),
+        TASKS: tasks.map((t, i) => ({ PRIORIDAD: i + 1, DESCRIPCIÓN: t })),
         INSTRUCTIONS: instructions,
         CLARIFICATION: clarification,
         REFINEMENT: refinement,
         BOUNDARIES: boundaries,
         CONSEQUENCES: consequences,
-        ...(exampleInput && { EXAMPLE: { INPUT: exampleInput } }),
-        ...(empathy && { EMPATÍA: empathy }),
+        ...(exampleInput.length && { EXAMPLE: { INPUT: exampleInput } }),
+        ...(empathy.length && { EMPATÍA: empathy }),
       },
     },
     null,
     2,
   );
-  // MARKDOWN
+
   const markdownOutput = `
 [PROMPT]
   ROLE:
-    ${role.map((role) => `  - ${escapeHtml(role)}`).join("\n    ")}
+    ${role.map((r) => `- ${escapeHtml(r)}`).join("\n    ")}
   CONTEXT:
-    ${context.map((context) => `  - ${escapeHtml(context)}`).join("\n    ")}
+    ${context.map((c) => `- ${escapeHtml(c)}`).join("\n    ")}
   AUDIENCE:
-    ${audience.map((audience) => `  - ${escapeHtml(audience)}`).join("\n    ")}
+    ${audience.map((a) => `- ${escapeHtml(a)}`).join("\n    ")}
   TASKS:
-    ${tasks.map((task, index) => `  TASK: ${index + 1}. ${escapeHtml(task)}`).join("\n    ")}
+    ${tasks.map((t, i) => `${i + 1}. ${escapeHtml(t)}`).join("\n    ")}
   INSTRUCTIONS:
-    ${instructions.map((instructions) => `  - ${escapeHtml(instructions)}`).join("\n    ")}
+    ${instructions.map((i) => `- ${escapeHtml(i)}`).join("\n    ")}
   CLARIFICATION:
-    ${clarification.map((clarification) => `  - ${escapeHtml(clarification)}`).join("\n    ")}
+    ${clarification.map((c) => `- ${escapeHtml(c)}`).join("\n    ")}
   REFINEMENT:
-    ${refinement.map((refinement) => `  - ${escapeHtml(refinement)}`).join("\n    ")}
+    ${refinement.map((r) => `- ${escapeHtml(r)}`).join("\n    ")}
   BOUNDARIES:
-    ${boundaries.map((boundary) => `  - ${escapeHtml(boundary)}`).join("\n    ")}
+    ${boundaries.map((b) => `- ${escapeHtml(b)}`).join("\n    ")}
   CONSEQUENCES:
-    ${consequences.map((consequences) => `  - ${escapeHtml(consequences)}`).join("\n    ")}
+    ${consequences.map((c) => `- ${escapeHtml(c)}`).join("\n    ")}
   EXAMPLE:
-    ${exampleInput.map((exampleInput) => `  - ${escapeHtml(exampleInput)}`).join("\n    ")}
-  EMPATÍA:
-    ${empathy.map((empathy) => `  - ${escapeHtml(empathy)}`).join("\n    ")}`;
+    ${exampleInput.map((e) => `- ${escapeHtml(e)}`).join("\n    ")}
+  ${empathy.length ? `EMPATÍA:\n    ${empathy.map((e) => `- ${escapeHtml(e)}`).join("\n    ")}` : ""}`;
 
-  // Mostrar resultados en los paneles
+  // Mostrar resultados
   document.getElementById("xmlEditor").textContent = xmlOutput;
   document.getElementById("yamlEditor").textContent = yamlOutput;
   document.getElementById("jsonEditor").textContent = jsonOutput;
   document.getElementById("markdownEditor").textContent = markdownOutput;
 
-  // Aplicar resaltado de sintaxis
   hljs.highlightAll();
-
-  // Mostrar pestaña de resultados
   document.getElementById("results").classList.remove("hidden");
   document.getElementById("generator").classList.add("hidden");
 });
 
-// Exportar resultados
-document
-  .getElementById("exportXmlButton")
-  .addEventListener("click", () => exportResult("xmlEditor"));
-document
-  .getElementById("exportYamlButton")
-  .addEventListener("click", () => exportResult("yamlEditor"));
-document
-  .getElementById("exportJsonButton")
-  .addEventListener("click", () => exportResult("jsonEditor"));
-document
-  .getElementById("exportMarkdownButton")
-  .addEventListener("click", () => exportResult("markdownEditor"));
-
+// Funciones de exportación e impresión (sin cambios)
 function exportResult(editorId) {
   const editor = document.getElementById(editorId);
   if (!editor) return;
-
   const blob = new Blob([editor.textContent], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -229,64 +205,72 @@ function exportResult(editorId) {
   URL.revokeObjectURL(url);
 }
 
-// Imprimir resultados
-document
-  .getElementById("printXmlButton")
-  .addEventListener("click", () => printResult("xmlEditor"));
-document
-  .getElementById("printYamlButton")
-  .addEventListener("click", () => printResult("yamlEditor"));
-document
-  .getElementById("printJsonButton")
-  .addEventListener("click", () => printResult("jsonEditor"));
-document
-  .getElementById("printMarkdownButton")
-  .addEventListener("click", () => printResult("markdownEditor"));
-
 function printResult(editorId) {
   const editor = document.getElementById(editorId);
   if (!editor) return;
-
   const printWindow = window.open("", "_blank");
   printWindow.document.write(`
     <html>
       <head>
         <title>Resultados</title>
         <style>
-          body {
-            font-family: Arial, sans-serif;
-            background-color: #fff;
-            color: #333;
-            padding: 20px;
-          }
-          pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-          }
+          body { font-family: Arial, sans-serif; background: #fff; color: #333; padding: 20px; }
+          pre { white-space: pre-wrap; word-wrap: break-word; }
         </style>
       </head>
-      <body>
-        <pre>${editor.textContent}</pre>
-      </body>
+      <body><pre>${editor.textContent}</pre></body>
     </html>
   `);
   printWindow.document.close();
   printWindow.print();
 }
 
-// Copiar al portapapeles
-document
-  .getElementById("copyXmlButton")
-  .addEventListener("click", () => copyToClipboard("xmlEditor"));
-document
-  .getElementById("copyYamlButton")
-  .addEventListener("click", () => copyToClipboard("yamlEditor"));
-document
-  .getElementById("copyJsonButton")
-  .addEventListener("click", () => copyToClipboard("jsonEditor"));
-document
-  .getElementById("copyMarkdownButton")
-  .addEventListener("click", () => copyToClipboard("markdownEditor"));
+function showNotification(message, type = "info") {
+  const container = document.getElementById("notification-container");
+  if (!container) return;
+
+  const notification = document.createElement("div");
+  notification.className = `notification ${type}`;
+
+  const icons = {
+    success: "✅",
+    error: "❌",
+    info: "ℹ️",
+  };
+  notification.innerHTML = `
+    <div class="notification-content">
+      <span class="notification-icon">${icons[type] || icons.info}</span>
+      <span class="notification-text">${message}</span>
+      <button class="notification-close">×</button>
+    </div>
+  `;
+
+  container.appendChild(notification);
+
+  // Mostrar notificación
+  setTimeout(() => notification.classList.add("show"), 10);
+
+  // Auto-eliminar después de 3 segundos
+  const autoRemove = setTimeout(() => {
+    removeNotification(notification);
+  }, 3000);
+
+  // Botón de cerrar
+  notification
+    .querySelector(".notification-close")
+    .addEventListener("click", () => {
+      clearTimeout(autoRemove);
+      removeNotification(notification);
+    });
+}
+function removeNotification(notification) {
+  notification.classList.remove("show");
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.parentNode.removeChild(notification);
+    }
+  }, 300);
+}
 
 function copyToClipboard(editorId) {
   const editor = document.getElementById(editorId);
@@ -295,32 +279,89 @@ function copyToClipboard(editorId) {
   navigator.clipboard
     .writeText(editor.textContent)
     .then(() => {
-      alert(`Contenido copiado al portapapeles: ${editorId}`);
+      // ✅ Mostrar notificación de éxito
+      showNotification("Copiado al portapapeles", "success");
     })
     .catch((err) => {
-      console.error("Error al copiar al portapapeles:", err);
+      console.error("Error al copiar:", err);
+      showNotification("Error al copiar", "error");
     });
 }
-//-----------------------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  // Asegurar que solo "information" esté visible al inicio
-  document.querySelectorAll(".tab-content").forEach((tab) => {
-    if (tab.id !== "information") tab.classList.add("hidden");
+
+// Asignar eventos de exportación/imprimir/copiar
+["Xml", "Yaml", "Json", "Markdown"].forEach((type) => {
+  document
+    .getElementById(`export${type}Button`)
+    .addEventListener("click", () =>
+      exportResult(`${type.toLowerCase()}Editor`),
+    );
+  document
+    .getElementById(`print${type}Button`)
+    .addEventListener("click", () =>
+      printResult(`${type.toLowerCase()}Editor`),
+    );
+  document
+    .getElementById(`copy${type}Button`)
+    .addEventListener("click", () =>
+      copyToClipboard(`${type.toLowerCase()}Editor`),
+    );
+});
+
+// ===== FUNCIÓN GLOBAL DE CAMBIO DE PESTAÑAS =====
+function showTab(targetId) {
+  const currentTab = document.querySelector(".tab-content:not(.hidden)");
+  const targetTab = document.getElementById(targetId);
+
+  if (!targetTab) return;
+
+  // Actualizar botones activos
+  document.querySelectorAll("nav button[data-tab]").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.tab === targetId);
   });
 
-  // Cambiar pestañas
-  document.querySelectorAll("nav button[data-tab]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const targetId = button.dataset.tab;
+  if (currentTab === targetTab) return;
 
-      // Ocultar todas
-      document.querySelectorAll(".tab-content").forEach((tab) => {
-        if (tab.id === targetId) {
-          tab.classList.remove("hidden");
-        } else {
-          tab.classList.add("hidden");
-        }
-      });
+  if (currentTab) {
+    currentTab.classList.add("fade-out");
+    setTimeout(() => {
+      currentTab.classList.add("hidden");
+      currentTab.classList.remove("fade-out");
+      targetTab.classList.remove("hidden");
+      targetTab.classList.add("entering");
+      setTimeout(() => targetTab.classList.remove("entering"), 500);
+    }, 200);
+  } else {
+    targetTab.classList.remove("hidden");
+    targetTab.classList.add("entering");
+    setTimeout(() => targetTab.classList.remove("entering"), 500);
+  }
+}
+
+// ===== INICIALIZACIÓN =====
+document.addEventListener("DOMContentLoaded", () => {
+  // Asegurar que solo "information" esté visible
+  document.querySelectorAll(".tab-content").forEach((tab) => {
+    if (tab.id === "information") tab.classList.remove("hidden");
+    else tab.classList.add("hidden");
+  });
+
+  // Marcar botón activo
+  document
+    .querySelector('nav button[data-tab="information"]')
+    ?.classList.add("active");
+
+  // Eventos de pestañas
+  document.querySelectorAll("nav button[data-tab]").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      showTab(button.dataset.tab);
+    });
+
+    button.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        showTab(button.dataset.tab);
+      }
     });
   });
 

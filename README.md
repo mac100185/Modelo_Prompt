@@ -29,6 +29,18 @@ Ideal para profesionales, investigadores, creadores de contenido o cualquier per
   - YAML
   - JSON
   - Markdown
+- 💾 **Sistema de prompts guardados**: Gestión completa de prompts personalizados:
+  - Guardar prompts con nombre, descripción y categoría
+  - Búsqueda y filtrado por categorías
+  - Edición y eliminación de prompts existentes
+  - Exportación e importación masiva en formato JSON
+  - Almacenamiento local persistente con IndexedDB
+  - Información detallada de uso de almacenamiento
+- 🔍 **Buscador de IAs integrado**: Base de datos de 200+ modelos de IA:
+  - Búsqueda por nombre y descripción
+  - Filtrado por categorías (Conversacional, Código, Imágenes, Audio, etc.)
+  - Enlaces directos a cada plataforma
+  - Resultados organizados y actualizados
 - 📋 **Funcionalidades prácticas**:
   - Copiar al portapapeles
   - Exportar como archivo
@@ -51,10 +63,12 @@ La aplicación se basa en un algoritmo de 4 fases:
 
 ## Tecnologías utilizadas
 
-- **HTML5** y **CSS3** para la estructura y estilos.
-- **JavaScript** para la lógica de interacción, generación de prompts y manejo de eventos.
+- **HTML5** y **CSS3** para la estructura y estilos responsive.
+- **JavaScript ES6+** para la lógica de interacción, generación de prompts y manejo de eventos.
+- **IndexedDB** para almacenamiento local persistente de prompts guardados.
 - **Highlight.js** con tema *Monokai Sublime* para resaltar sintaxis en los resultados.
-- Soporte para exportación e impresión mediante APIs del navegador.
+- **APIs del navegador** para exportación, importación e impresión de documentos.
+- **Base de datos de IAs** integrada con información actualizada de 200+ modelos.
 
 ---
 
@@ -62,11 +76,15 @@ La aplicación se basa en un algoritmo de 4 fases:
 
 1. Abre la aplicación en tu navegador.
 2. Navega por las pestañas:
-   - **Información**: Aprende sobre el algoritmo.
+   - **Información**: Aprende sobre el algoritmo de 4 fases.
    - **Generador**: Completa el formulario con los componentes de tu prompt.
    - **Resultados**: Visualiza y exporta tu prompt en los formatos disponibles.
-3. Haz clic en **"Generar Prompt"** para procesar tus entradas.
-4. Usa los botones de **Copiar**, **Exportar** o **Imprimir** según tus necesidades.
+   - **Mis Prompts**: Gestiona tus prompts guardados (guardar, editar, eliminar, exportar).
+   - **Buscar IA**: Encuentra la IA más adecuada para tu caso de uso.
+3. En el **Generador**, completa los campos y haz clic en **"Generar Prompt"**.
+4. En **Resultados**, usa los botones de **Copiar**, **Exportar** o **Imprimir**.
+5. **Guarda prompts útiles** desde la pestaña de Resultados para reutilizarlos después.
+6. **Busca IAs específicas** según tu necesidad (texto, código, imágenes, etc.).
 
 ---
 
@@ -87,9 +105,14 @@ La herramienta generará un prompt estructurado que puedes copiar directamente y
 ## Archivos del proyecto
 
 /
-  index.html
-  styles.css
-  script.js
+  index.html              # Estructura principal de la aplicación
+  styles.css              # Estilos principales
+  ia-search.css          # Estilos para el buscador de IAs
+  script.js              # Lógica principal y generación de prompts
+  ia-search.js           # Funcionalidad del buscador de IAs
+  ia-data.js             # Base de datos de 200+ modelos de IA
+  saved-prompts.js       # Gestor de prompts guardados
+  db-manager.js          # Manejo de IndexedDB
   highlight/
     highlight.min.js
     styles/
@@ -98,6 +121,9 @@ La herramienta generará un prompt estructurado que puedes copiar directamente y
     imagenes/
       LogoCyberOliver.jpeg
       algoritmo_comunicacion_llm.png
+      favicon.ico
+      favicon.svg
+      apple-touch-icon.png
 
 ---
 ## Licencia
@@ -108,4 +134,66 @@ La herramienta generará un prompt estructurado que puedes copiar directamente y
 
 ---
 
-> 💡 **Consejo**: Guarda tus prompts generados como plantillas para casos similares futuros. ¡La consistencia mejora la calidad de la interacción con la IA!
+## Migración y Backup de Prompts Guardados
+
+### 🚨 **Importante: ¿Dónde se guardan mis prompts?**
+
+Los prompts se almacenan localmente en tu navegador usando **IndexedDB**, **NO en la carpeta del proyecto**. Esto significa:
+
+- ✅ **Ventaja**: Los prompts persisten entre sesiones del navegador
+- ❌ **Limitación**: No se transfieren automáticamente al cambiar de computadora
+
+### 📤 **Cómo hacer backup de tus prompts**
+
+**Para respaldar tus prompts importantes:**
+
+1. Ve a la pestaña **"Mis Prompts"**
+2. Haz clic en el botón **"Exportar Todos"** (en los botones de gestión)
+3. Se descargará un archivo JSON con todos tus prompts guardados
+4. **Guarda este archivo en un lugar seguro** (Dropbox, Google Drive, etc.)
+
+### 💻 **Cómo migrar prompts a otra computadora**
+
+**Si cambias de laptop o computadora:**
+
+1. **En la computadora anterior:**
+   - Exporta todos tus prompts (paso anterior)
+   - Guarda el archivo JSON descargado
+
+2. **En la nueva computadora:**
+   - Copia toda la carpeta del proyecto `Modelo_Pront`
+   - Abre la aplicación en tu navegador
+   - Ve a la pestaña **"Mis Prompts"**
+   - Haz clic en **"Importar"** (botón de gestión)
+   - Selecciona el archivo JSON que guardaste
+   - ¡Todos tus prompts aparecerán automáticamente!
+
+### 💡 **Recomendaciones**
+
+- **Haz backups regulares** después de crear prompts importantes
+- **El archivo JSON es portátil** - funciona en cualquier instalación de Modelo_Pront
+- **Mantén copias** en la nube para mayor seguridad
+
+---
+
+---
+
+## Novedades de la versión 1.2.0
+
+### 🆕 Sistema de Prompts Guardados
+- **Almacenamiento local**: Tus prompts se guardan en tu navegador de forma persistente
+- **Gestión completa**: Crear, editar, eliminar y organizar prompts por categorías
+- **Búsqueda avanzada**: Encuentra prompts por nombre, descripción o contenido
+- **Exportación masiva**: Exporta todos tus prompts en un archivo JSON
+- **Importación**: Importa prompts desde archivos externos o de otras instalaciones
+
+### 🔍 Buscador de IAs Integrado
+- **Base de datos completa**: Más de 200 modelos de IA actualizados
+- **Búsqueda inteligente**: Por nombre, descripción y funcionalidades
+- **Filtros por categoría**: Conversacional, Código, Imágenes, Audio, Video, etc.
+- **Enlaces directos**: Acceso rápido a cada plataforma de IA
+- **Información detallada**: Descripción y características de cada modelo
+
+---
+
+> 💡 **Consejo**: Guarda tus prompts más efectivos en "Mis Prompts" para crear tu propia biblioteca de plantillas. ¡La reutilización de prompts optimizados mejora significativamente la calidad de tus interacciones con la IA!

@@ -72,7 +72,7 @@ body::before {
     background-attachment: fixed;
     opacity: 0.35; /* Ajusta para equilibrar legibilidad y estética */
     z-index: -2;
-    pointer-events: none;
+    pointer-events: none !important;
 }
 
 /* Degradado animado encima de la imagen (igual que antes) */
@@ -89,7 +89,7 @@ body::after {
     opacity: 0.06;
     z-index: -1;
     animation: slowFloat 30s infinite alternate ease-in-out;
-    pointer-events: none;
+    pointer-events: none !important;
 }
 
 @keyframes slowFloat {
@@ -204,7 +204,8 @@ button[type="submit"]::after {
         transparent
     );
     transition: left 0.6s;
-    z-index: 1;
+    z-index: -1;
+    pointer-events: none;
 }
 
 nav button:hover::after,
@@ -219,65 +220,165 @@ nav button:hover {
     text-decoration: none;
 }
 
+nav button.active {
+    background: linear-gradient(135deg, var(--accent), var(--accent-light));
+    color: white;
+    box-shadow: var(--shadow);
+    transform: translateY(-1px);
+}
+
+nav button.active::after {
+    opacity: 1;
+    transform: translateY(0) scaleX(1);
+}
+
+/* Efecto de focus mejorado para accesibilidad */
+nav button:focus {
+    outline: 2px solid var(--accent-light);
+    outline-offset: 2px;
+}
+
+nav button:focus:not(:focus-visible) {
+    outline: none;
+}
+
 /* Contenedor principal de pestañas */
 main {
     flex: 1;
     padding: 20px;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     position: relative;
+    pointer-events: auto;
     z-index: 5;
 }
 
-/* ===== EFECTO 5: TRANSICIONES ENTRE PESTAÑAS (CORREGIDO) ===== */
+/* ===== TRANSICIONES MEJORADAS PARA PESTAÑAS ===== */
 /* Estilo base para todas las pestañas */
 .tab-content {
     max-width: 900px;
     width: 100%;
+    position: relative;
+    margin: 0 auto;
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
     transition:
-        opacity 0.35s ease,
-        transform 0.35s ease,
-        visibility 0.35s;
-    /* Asegura que todas ocupen el mismo espacio */
-    position: relative;
-    margin: 0 auto;
+        opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        visibility 0.4s ease;
+    /* will-change: opacity, transform; */ /* COMENTAR ESTA LÍNEA */
+    pointer-events: auto;
 }
 
-/* Pestañas ocultas: invisibles pero ocupan espacio cero */
+/* Pestañas ocultas con transición suave */
 .tab-content.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    height: 0;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    border: none;
-    /* Esto evita que empujen el footer */
+    display: none;
 }
 
-/* Durante la transición de salida */
-.tab-content.fade-out {
-    opacity: 0;
-    transform: translateY(10px);
-    pointer-events: none;
+/* Pestañas visibles con entrada suave */
+
+/* Animación de entrada para pestañas */
+@keyframes smoothFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    60% {
+        opacity: 0.8;
+        transform: translateY(-2px) scale(1.01);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Clase para forzar animación de entrada */
+.tab-content.entering {
+    animation: smoothFadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Estados de transición */
+.tab-content.fade-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Contenedor de pestañas con posicionamiento relativo */
+main .tab-container {
+    position: relative;
+    min-height: 400px;
+    overflow: hidden;
+}
+
+/* Preloader suave para transiciones */
+.tab-content.loading {
+    opacity: 0.5;
+}
+
+.tab-content.loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--accent-light);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Mejoras en la experiencia de hover de botones */
+nav button {
+    transform-origin: center;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+nav button:hover {
+    transform: translateY(-1px) scale(1.02);
+}
+
+nav button:active {
+    transform: translateY(0) scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+/* Transiciones más suaves para el tema */
+body {
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.light-theme {
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 /*--------------------------------------------*/
 
 /* Estilos base de las pestañas (con efectos visuales) */
 #information,
 #generator,
-#results {
+#results,
+#saved-prompts,
+#ia-search {
     background: color-mix(in srgb, var(--surface), transparent 60%);
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px); */ /* ← COMENTAR O REDUCIR A blur(3px) */
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     padding: 30px;
     box-shadow: var(--shadow);
     position: relative;
+    pointer-events: auto;
+    z-index: 5;
 }
 
 /* Hover flotante (solo en escritorio) */
@@ -340,7 +441,9 @@ main {
 /* Scanlines */
 #information::after,
 #generator::after,
-#results::after {
+#results::after,
+#saved-prompts::after,
+#ia-search::after {
     content: "";
     position: absolute;
     top: 0;
@@ -354,7 +457,7 @@ main {
         var(--scanline-color) 2px,
         var(--scanline-color) 4px
     );
-    pointer-events: none;
+    pointer-events: none !important;
     border-radius: var(--border-radius);
     z-index: 2;
 }
@@ -483,6 +586,9 @@ main {
     font-family: inherit;
     position: relative;
     z-index: 3;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 .clear-button {
@@ -494,11 +600,13 @@ main {
     border: none;
     padding: 4px 10px;
     border-radius: 6px;
+    cursor: pointer !important;
     cursor: pointer;
     font-size: 0.8rem;
     transition: background 0.2s;
-    z-index: 4;
+    z-index: 10;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    pointer-events: auto !important;
 }
 
 /* Para evitar que el botón se superponga con el texto */
@@ -804,4 +912,656 @@ footer nav a:hover {
     border: 1px solid var(--border-color);
     position: relative;
     z-index: 3;
+}
+
+/* ===== ESTILOS PARA PROMPTS GUARDADOS ===== */
+
+/* Botón para guardar prompt */
+.save-prompt-section {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.save-prompt-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent-light));
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.save-prompt-btn:hover {
+    background: linear-gradient(135deg, var(--accent-hover), var(--accent));
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 123, 255, 0.25);
+}
+
+/* Sección de búsqueda y filtros */
+.search-filter-section {
+    background: var(--surface);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.search-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-controls input,
+.search-controls select {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+}
+
+.search-controls button {
+    padding: 10px 15px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-controls button:hover {
+    background: var(--accent-hover);
+}
+
+.storage-info {
+    margin-top: 15px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Grid de prompts guardados */
+.prompts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.prompt-card {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.prompt-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+    border-color: var(--accent-light);
+}
+
+.prompt-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.prompt-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--title-color);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.prompt-card-date {
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.prompt-card-description {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    display: -webkit-box;
+    display: -moz-box; /* opcional, para compatibilidad antigua en Firefox */
+    display: box; /* opcional */
+    -webkit-line-clamp: 2;
+    line-clamp: 2; /* ✅ Propiedad estándar */
+    -webkit-box-orient: vertical;
+    box-orient: vertical; /* opcional */
+    overflow: hidden;
+}
+
+.prompt-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.prompt-card-category {
+    background: var(--accent-light);
+    color: var(--bg);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.prompt-card-tag {
+    background: var(--border-color);
+    color: var(--text-secondary);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+}
+
+.prompt-card-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.prompt-card-actions button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.load-btn {
+    background: var(--accent);
+    color: white;
+}
+
+.load-btn:hover {
+    background: var(--accent-hover);
+}
+
+.delete-btn {
+    background: var(--danger);
+    color: white;
+}
+
+.delete-btn:hover {
+    background: var(--danger-hover);
+}
+
+.no-prompts-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+}
+
+.no-prompts-message h3 {
+    color: var(--title-color);
+    margin-bottom: 10px;
+}
+
+/* Botones de gestión */
+.management-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.management-buttons button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.management-buttons button:not(.danger-btn) {
+    background: var(--accent);
+    color: white;
+}
+
+.management-buttons button:not(.danger-btn):hover {
+    background: var(--accent-hover);
+}
+
+.danger-btn {
+    background: var(--danger) !important;
+    color: white !important;
+}
+
+.danger-btn:hover {
+    background: var(--danger-hover) !important;
+}
+
+/* ===== MODALES ===== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    display: none;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    pointer-events: auto;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.modal-content.large {
+    max-width: 800px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 0 20px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--title-color);
+    font-size: 20px;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    background: var(--border-color);
+    color: var(--text);
+}
+
+.modal-body {
+    padding: 0 20px 20px 20px;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+    pointer-events: auto; /* ✅ Asegurar que el grupo sea interactivo */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text);
+}
+input,
+textarea,
+select {
+    pointer-events: auto !important;
+    cursor: text !important;
+}
+
+.modal.show input,
+.modal.show textarea,
+.modal.show select,
+.modal.show button {
+    pointer-events: auto !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    pointer-events: auto !important;
+    cursor: text !important;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.primary-btn {
+    background: var(--accent);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+    background: var(--accent-hover);
+}
+
+.secondary-btn {
+    background: var(--border-color);
+    color: var(--text);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background: var(--text-secondary);
+}
+
+.warning-text {
+    color: var(--danger);
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+.confirmation-input {
+    margin-top: 20px;
+}
+
+.prompt-details-content {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.detail-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: var(--bg);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.detail-section h4 {
+    margin: 0 0 10px 0;
+    color: var(--title-color);
+    font-size: 16px;
+}
+
+.detail-section p,
+.detail-section ul {
+    margin: 0;
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.detail-section ul {
+    padding-left: 20px;
+}
+
+/* ===== NOTIFICACIONES ===== */
+
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 15px 20px;
+    box-shadow: var(--shadow);
+    min-width: 300px;
+    max-width: 400px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification.success {
+    border-left: 4px solid #10b981;
+}
+
+.notification.error {
+    border-left: 4px solid var(--danger);
+}
+
+.notification.info {
+    border-left: 4px solid var(--accent);
+}
+
+.notification-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.notification-icon {
+    font-size: 18px;
+    margin-top: 2px;
+}
+
+.notification-text {
+    flex: 1;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.notification-close:hover {
+    color: var(--text);
+}
+
+/* Contenedor principal de la app */
+.app-container {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== RESPONSIVE PARA NUEVAS FUNCIONALIDADES ===== */
+
+@media (max-width: 768px) {
+    .prompts-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .search-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-controls input,
+    .search-controls select {
+        min-width: auto;
+    }
+
+    button,
+    a,
+    .clear-button {
+        pointer-events: auto !important;
+        cursor: pointer !important;
+    }
+
+    .management-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+    }
+
+    .notification-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: none; /* ✅ El contenedor no bloquea */
+    }
+
+    .notification {
+        background: var(--surface);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 15px 20px;
+        box-shadow: var(--shadow);
+        min-width: 300px;
+        max-width: 400px;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+        position: relative;
+        pointer-events: auto; /* ✅ Las notificaciones SÍ son interactivas */
+    }
+
+    .notification.show {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto; /* ✅ Visible y clickeable */
+    }
+    .prompt-card-actions {
+        flex-direction: column;
+    }
+    /* Asegurar que todo el contenido interactivo esté por encima */
+    header,
+    main,
+    footer,
+    .app-container > * {
+        position: relative;
+        z-index: 5;
+    }
 }

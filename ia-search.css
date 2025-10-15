@@ -56,7 +56,7 @@ body.light-theme {
     gap: 10px;
 }
 
-.filter-btn {
+#ia-search .filter-btn {
     background: var(--surface);
     color: var(--text);
     border: 1px solid var(--border-color);
@@ -64,12 +64,40 @@ body.light-theme {
     border-radius: 8px;
     cursor: pointer;
     font-size: 0.9rem;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
+    position: relative;
 }
 
-.filter-btn.active {
-    background: var(--accent);
-    color: white;
+#ia-search .filter-btn.active {
+    background: var(--accent) !important;
+    color: white !important;
+    border-color: var(--accent) !important;
+    font-weight: 600;
+}
+
+#ia-search .filter-btn.active:hover {
+    background: var(--accent-hover, var(--accent)) !important;
+    color: white !important;
+}
+
+#ia-search .filter-btn:not(.active):hover {
+    background: color-mix(in srgb, var(--accent), transparent 80%);
+    border-color: var(--accent);
+    color: var(--text);
+}
+/* Fallback con colores fijos por si las variables fallan */
+#ia-search .filter-btn.active {
+    background: #007bff !important; /* Azul fijo para tema oscuro */
+    color: white !important;
+    border-color: #007bff !important;
+    font-weight: 600;
+}
+
+body.light-theme #ia-search .filter-btn.active {
+    background: #3b82f6 !important; /* Azul fijo para tema claro */
+    color: white !important;
+    border-color: #3b82f6 !important;
+    font-weight: 600;
 }
 
 .ia-list {

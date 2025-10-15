@@ -1,29 +1,18 @@
-// ia-search.js
-
+// ia-search.js - Corregido para no interferir con la navegación principal
 let activeCategory = null;
-
-function showTab(tabId) {
-  document.querySelectorAll(".tab-content").forEach((tab) => {
-    tab.classList.add("hidden");
-  });
-  document.getElementById(tabId).classList.remove("hidden");
-}
-
-function initTabs() {
-  document.querySelectorAll("nav button[data-tab]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      showTab(btn.dataset.tab);
-    });
-  });
-}
 
 function initSearch() {
   const categories = [...new Set(allAIs.map((ai) => ai.category))].sort();
   const filtersContainer = document.getElementById("categoryFilters");
+  if (!filtersContainer) {
+    console.error("No se encontró categoryFilters");
+    return;
+  }
+
   filtersContainer.innerHTML = categories
     .map(
       (cat) =>
-        `<button class="filter-btn" data-category="${cat}">${cat}</button>`,
+        `<button type="button" class="filter-btn" data-category="${cat}">${cat}</button>`,
     )
     .join("");
 
@@ -31,24 +20,40 @@ function initSearch() {
     if (e.target.classList.contains("filter-btn")) {
       const btn = e.target;
       const cat = btn.dataset.category;
-      activeCategory = activeCategory === cat ? null : cat;
-      document
-        .querySelectorAll(".filter-btn")
-        .forEach((b) => b.classList.remove("active"));
-      if (activeCategory) btn.classList.add("active");
+
+      // Toggle de categoría
+      if (activeCategory === cat) {
+        activeCategory = null;
+      } else {
+        activeCategory = cat;
+      }
+
+      // Actualizar estados visuales
+      document.querySelectorAll(".filter-btn").forEach((b) => {
+        b.classList.remove("active");
+      });
+
+      if (activeCategory) {
+        btn.classList.add("active");
+      }
+
       renderResults();
     }
   });
 
-  document
-    .getElementById("searchInput")
-    .addEventListener("input", renderResults);
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", renderResults);
+  } else {
+    console.error("No se encontró searchInput");
+  }
+
   renderResults(); // Mostrar top 20 al inicio
 }
 
 function renderResults() {
-  const query =
-    document.getElementById("searchInput")?.value?.toLowerCase() || "";
+  const searchInput = document.getElementById("searchInput");
+  const query = searchInput?.value?.toLowerCase() || "";
   const results = allAIs.filter((ai) => {
     const matchesText =
       ai.name.toLowerCase().includes(query) ||
@@ -81,7 +86,7 @@ function renderResults() {
   }
 }
 
+// Solo inicializa la búsqueda, NO las pestañas
 document.addEventListener("DOMContentLoaded", () => {
-  initTabs();
   initSearch();
 });
