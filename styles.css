@@ -1240,24 +1240,24 @@ footer nav a:hover {
 }
 
 .close-modal {
-    background: none;
-    border: none;
-    font-size: 24px;
+    background: none !important;
+    border: none !important;
+    font-size: 24px !important;
     cursor: pointer;
-    color: var(--text-secondary);
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
+    color: var(--text-secondary) !important;
+    padding: 0 !important;
+    width: 30px !important;
+    height: 30px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
     transition: all 0.3s ease;
 }
 
 .close-modal:hover {
-    background: var(--border-color);
-    color: var(--text);
+    background: var(--border-color) !important;
+    color: var(--text) !important;
 }
 
 .modal-body {

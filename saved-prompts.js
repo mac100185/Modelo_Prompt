@@ -127,6 +127,12 @@ class SavedPromptsManager {
         this.showDeleteModalFromDetails();
       });
 
+    document
+      .getElementById("close-prompt-details")
+      ?.addEventListener("click", () => {
+        this.hideModal("prompt-details-modal");
+      });
+
     // Cerrar modales
     document.querySelectorAll(".close-modal").forEach((btn) => {
       btn.addEventListener("click", (e) => {
@@ -244,10 +250,21 @@ class SavedPromptsManager {
 
   async refreshPromptsList() {
     try {
+      // Resetear filtros
+      const searchInput = document.getElementById("prompt-search");
+      const categoryFilter = document.getElementById("category-filter");
+
+      if (searchInput) searchInput.value = "";
+      if (categoryFilter) categoryFilter.value = "";
+
+      // Obtener todos los prompts y actualizar la UI
       const prompts = await promptDB.getAllPrompts();
-      this.renderPromptsList(prompts);
       this.updateCategoryFilter(prompts);
       this.updateStorageInfo();
+
+      // Usar searchPrompts con query vacía para renderizar todos los prompts
+      // Esto mantiene la funcionalidad de búsqueda activa
+      await this.searchPrompts("");
     } catch (error) {
       console.error("Error al cargar prompts:", error);
       this.showNotification("Error al cargar los prompts", "error");
