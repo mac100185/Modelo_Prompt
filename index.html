@@ -947,6 +947,185 @@ e.g., "Si hay error, reintentar con variación; persistencia lleva a cambio de e
                 </div>
             </div>
 
+            <!-- Modal para editar prompt -->
+            <div id="edit-prompt-modal" class="modal hidden">
+                <div
+                    class="modal-content"
+                    style="max-width: 900px; max-height: 90vh; overflow-y: auto"
+                >
+                    <div class="modal-header">
+                        <h3>✏️ Editar Prompt</h3>
+                        <button
+                            class="close-modal"
+                            data-modal="edit-prompt-modal"
+                        >
+                            ×
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="edit-prompt-name"
+                                >Nombre del prompt *</label
+                            >
+                            <input
+                                type="text"
+                                id="edit-prompt-name"
+                                placeholder="Ej: Correo comercial para ciberseguridad"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-prompt-description"
+                                >Descripción</label
+                            >
+                            <textarea
+                                id="edit-prompt-description"
+                                placeholder="Breve descripción de para qué sirve este prompt (opcional)"
+                                rows="3"
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-prompt-category">Categoría</label>
+                            <input
+                                type="text"
+                                id="edit-prompt-category"
+                                placeholder="Ej: Comercial, Técnico, Creativo"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-prompt-tags">Tags</label>
+                            <input
+                                type="text"
+                                id="edit-prompt-tags"
+                                placeholder="Separados por comas: ventas, b2b, ciberseguridad"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-role"
+                                ><span class="icon">👤</span> Rol del LLM</label
+                            >
+                            <textarea
+                                id="edit-role"
+                                rows="3"
+                                placeholder="Define el rol del LLM..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-context"
+                                ><span class="icon">📝</span> Contexto</label
+                            >
+                            <textarea
+                                id="edit-context"
+                                rows="3"
+                                placeholder="Describe el contexto..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-audience"
+                                ><span class="icon">👥</span> Audiencia</label
+                            >
+                            <textarea
+                                id="edit-audience"
+                                rows="3"
+                                placeholder="Define la audiencia..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-tasks"
+                                ><span class="icon">📋</span> Tareas</label
+                            >
+                            <textarea
+                                id="edit-tasks"
+                                rows="3"
+                                placeholder="Lista las tareas..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-instructions"
+                                ><span class="icon">📖</span>
+                                Instrucciones</label
+                            >
+                            <textarea
+                                id="edit-instructions"
+                                rows="5"
+                                placeholder="Proporciona instrucciones..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-empathy"
+                                ><span class="icon">❤️</span> Empatía</label
+                            >
+                            <textarea
+                                id="edit-empathy"
+                                rows="3"
+                                placeholder="Define el tono y empatía..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-clarification"
+                                ><span class="icon">💬</span>
+                                Clarificación</label
+                            >
+                            <textarea
+                                id="edit-clarification"
+                                rows="3"
+                                placeholder="Clarificaciones necesarias..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-refinement"
+                                ><span class="icon">✨</span>
+                                Refinamiento</label
+                            >
+                            <textarea
+                                id="edit-refinement"
+                                rows="3"
+                                placeholder="Detalles de refinamiento..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-boundaries"
+                                ><span class="icon">🚫</span> Límites</label
+                            >
+                            <textarea
+                                id="edit-boundaries"
+                                rows="3"
+                                placeholder="Define los límites..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-consequences"
+                                ><span class="icon">⚠️</span>
+                                Consecuencias</label
+                            >
+                            <textarea
+                                id="edit-consequences"
+                                rows="3"
+                                placeholder="Consecuencias de errores..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-example"
+                                ><span class="icon">💡</span> Ejemplo</label
+                            >
+                            <textarea
+                                id="edit-example"
+                                rows="3"
+                                placeholder="Proporciona un ejemplo si es relevante..."
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="confirm-edit" class="primary-btn">
+                            ✏️ Actualizar
+                        </button>
+                        <button id="cancel-edit" class="secondary-btn">
+                            ❌ Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Modal de confirmación para eliminar -->
             <div id="confirm-delete-modal" class="modal hidden">
                 <div class="modal-content">

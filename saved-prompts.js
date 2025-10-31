@@ -133,6 +133,15 @@ class SavedPromptsManager {
         this.hideModal("prompt-details-modal");
       });
 
+    // Modal de edición
+    document.getElementById("confirm-edit")?.addEventListener("click", () => {
+      this.updatePrompt();
+    });
+
+    document.getElementById("cancel-edit")?.addEventListener("click", () => {
+      this.hideEditModal();
+    });
+
     // Cerrar modales
     document.querySelectorAll(".close-modal").forEach((btn) => {
       btn.addEventListener("click", (e) => {
@@ -345,6 +354,9 @@ class SavedPromptsManager {
                     <button class="secondary-btn" onclick="savedPrompts.showPromptDetails(${prompt.id})">
                         👁️ Ver
                     </button>
+                    <button class="secondary-btn" onclick="savedPrompts.exportSinglePrompt(${prompt.id})" title="Exportar este prompt">
+                        📤
+                    </button>
                     <button class="delete-btn" onclick="savedPrompts.showDeleteModal(${prompt.id}, '${this.escapeHtml(prompt.name)}')">
                         🗑️
                     </button>
@@ -433,13 +445,14 @@ class SavedPromptsManager {
 
   async exportAllPrompts() {
     try {
-      const jsonData = await promptDB.exportAllPrompts();
+      const prompts = await promptDB.getAllPrompts();
+      const jsonData = JSON.stringify(prompts, null, 2);
       const blob = new Blob([jsonData], { type: "application/json" });
       const url = URL.createObjectURL(blob);
 
       const a = document.createElement("a");
       a.href = url;
-      a.download = `modelo-pront-prompts-${new Date().toISOString().split("T")[0]}.json`;
+      a.download = `all-prompts-${Date.now()}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -452,12 +465,74 @@ class SavedPromptsManager {
     }
   }
 
+  async exportSinglePrompt(promptId) {
+    try {
+      const prompt = await promptDB.getPromptById(promptId);
+      if (!prompt) {
+        this.showNotification("Prompt no encontrado", "error");
+        return;
+      }
+
+      const jsonData = JSON.stringify([prompt], null, 2);
+      const blob = new Blob([jsonData], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const safeName = prompt.name.replace(/[^a-z0-9]/gi, "-").toLowerCase();
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `prompt-${safeName}-${Date.now()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      this.showNotification("Prompt exportado exitosamente", "success");
+    } catch (error) {
+      console.error("Error al exportar prompt:", error);
+      this.showNotification("Error al exportar el prompt", "error");
+    }
+  }
+
   async importPrompts(file) {
     if (!file) return;
 
     try {
       const text = await file.text();
-      const results = await promptDB.importPrompts(text);
+      let data = JSON.parse(text);
+
+      // Manejar tanto formato de array directo como objeto envuelto
+      let promptsToImport = [];
+      if (Array.isArray(data)) {
+        promptsToImport = data;
+      } else if (data.prompts && Array.isArray(data.prompts)) {
+        promptsToImport = data.prompts;
+      } else {
+        throw new Error("Formato de archivo inválido");
+      }
+
+      const results = {
+        imported: 0,
+        skipped: 0,
+        errors: [],
+      };
+
+      for (const promptData of promptsToImport) {
+        try {
+          // Crear una copia limpia sin el ID para evitar conflictos
+          const { id, ...cleanPromptData } = promptData;
+          cleanPromptData.importedAt = new Date().toISOString();
+
+          await promptDB.savePrompt(cleanPromptData);
+          results.imported++;
+        } catch (error) {
+          console.error("Error al importar prompt:", error);
+          results.errors.push({
+            name: promptData.name || "Sin nombre",
+            error: error.message,
+          });
+          results.skipped++;
+        }
+      }
 
       let message = `Importación completada: ${results.imported} prompts importados`;
       if (results.skipped > 0) {
@@ -475,7 +550,10 @@ class SavedPromptsManager {
       }
     } catch (error) {
       console.error("Error al importar:", error);
-      this.showNotification("Error al importar los prompts", "error");
+      this.showNotification(
+        "Error al importar los prompts: " + error.message,
+        "error",
+      );
     }
 
     // Limpiar el input
@@ -603,8 +681,10 @@ class SavedPromptsManager {
       instructions: document.getElementById("instructions")?.value || "",
       empathy: document.getElementById("empathy")?.value || "",
       clarification: document.getElementById("clarification")?.value || "",
-      limits: document.getElementById("limits")?.value || "",
-      examples: document.getElementById("examples")?.value || "",
+      refinement: document.getElementById("refinement")?.value || "",
+      boundaries: document.getElementById("boundaries")?.value || "",
+      consequences: document.getElementById("consequences")?.value || "",
+      example: document.getElementById("example")?.value || "",
     };
   }
 
@@ -617,8 +697,10 @@ class SavedPromptsManager {
       "instructions",
       "empathy",
       "clarification",
-      "limits",
-      "examples",
+      "refinement",
+      "boundaries",
+      "consequences",
+      "example",
     ];
 
     fields.forEach((field) => {
@@ -634,36 +716,90 @@ class SavedPromptsManager {
   }
 
   editPrompt() {
-    this.isEditMode = true;
     this.hideModal("prompt-details-modal");
 
-    // Cargar datos en el modal de guardado
+    // Cargar datos en el modal de edición
     promptDB.getPromptById(this.currentPromptId).then((prompt) => {
       if (prompt) {
-        document.getElementById("prompt-name").value = prompt.name || "";
-        document.getElementById("prompt-description").value =
+        // Cargar todos los campos en el modal de edición
+        document.getElementById("edit-prompt-name").value = prompt.name || "";
+        document.getElementById("edit-prompt-description").value =
           prompt.description || "";
-        document.getElementById("prompt-category").value =
+        document.getElementById("edit-prompt-category").value =
           prompt.category || "";
-        document.getElementById("prompt-tags").value =
+        document.getElementById("edit-prompt-tags").value =
           prompt.tags?.join(", ") || "";
+        document.getElementById("edit-role").value = prompt.role || "";
+        document.getElementById("edit-context").value = prompt.context || "";
+        document.getElementById("edit-audience").value = prompt.audience || "";
+        document.getElementById("edit-tasks").value = prompt.tasks || "";
+        document.getElementById("edit-instructions").value =
+          prompt.instructions || "";
+        document.getElementById("edit-empathy").value = prompt.empathy || "";
+        document.getElementById("edit-clarification").value =
+          prompt.clarification || "";
+        document.getElementById("edit-refinement").value =
+          prompt.refinement || "";
+        document.getElementById("edit-boundaries").value =
+          prompt.boundaries || "";
+        document.getElementById("edit-consequences").value =
+          prompt.consequences || "";
+        document.getElementById("edit-example").value = prompt.example || "";
 
-        this.showSaveModal();
-
-        // Cambiar el texto del botón
-        const saveBtn = document.getElementById("confirm-save");
-        const originalText = saveBtn.textContent;
-        saveBtn.textContent = "✏️ Actualizar";
-
-        // Restaurar texto original después de cerrar
-        const originalHide = this.hideSaveModal.bind(this);
-        this.hideSaveModal = () => {
-          saveBtn.textContent = originalText;
-          this.hideSaveModal = originalHide;
-          originalHide();
-        };
+        this.showModal("edit-prompt-modal");
       }
     });
+  }
+
+  async updatePrompt() {
+    const name = document.getElementById("edit-prompt-name").value.trim();
+    if (!name) {
+      this.showNotification("El nombre del prompt es requerido", "error");
+      return;
+    }
+
+    try {
+      const promptData = {
+        name: name,
+        description: document
+          .getElementById("edit-prompt-description")
+          .value.trim(),
+        category: document.getElementById("edit-prompt-category").value.trim(),
+        tags: document
+          .getElementById("edit-prompt-tags")
+          .value.split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag.length > 0),
+        role: document.getElementById("edit-role")?.value || "",
+        context: document.getElementById("edit-context")?.value || "",
+        audience: document.getElementById("edit-audience")?.value || "",
+        tasks: document.getElementById("edit-tasks")?.value || "",
+        instructions: document.getElementById("edit-instructions")?.value || "",
+        empathy: document.getElementById("edit-empathy")?.value || "",
+        clarification:
+          document.getElementById("edit-clarification")?.value || "",
+        refinement: document.getElementById("edit-refinement")?.value || "",
+        boundaries: document.getElementById("edit-boundaries")?.value || "",
+        consequences: document.getElementById("edit-consequences")?.value || "",
+        example: document.getElementById("edit-example")?.value || "",
+      };
+
+      await promptDB.updatePrompt(this.currentPromptId, promptData);
+      this.showNotification("Prompt actualizado exitosamente", "success");
+
+      this.hideEditModal();
+      this.currentPromptId = null;
+      this.refreshPromptsList();
+      this.updateStorageInfo();
+    } catch (error) {
+      console.error("Error al actualizar prompt:", error);
+      this.showNotification("Error al actualizar el prompt", "error");
+    }
+  }
+
+  hideEditModal() {
+    this.hideModal("edit-prompt-modal");
+    this.currentPromptId = null;
   }
 
   // ===== UTILIDADES =====
@@ -685,8 +821,14 @@ class SavedPromptsManager {
         title: "Clarificación",
         value: prompt.clarification,
       },
-      { key: "limits", title: "Límites y Consecuencias", value: prompt.limits },
-      { key: "examples", title: "Ejemplos", value: prompt.examples },
+      { key: "refinement", title: "Refinamiento", value: prompt.refinement },
+      { key: "boundaries", title: "Límites", value: prompt.boundaries },
+      {
+        key: "consequences",
+        title: "Consecuencias",
+        value: prompt.consequences,
+      },
+      { key: "example", title: "Ejemplo", value: prompt.example },
     ];
 
     let html = "";
